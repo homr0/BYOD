@@ -1,16 +1,18 @@
 <!DOCTYPE html>
 <html lang="en-us">
 
+
+<!-- Bootstrap -->
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootswatch/4.1.3/lux/bootstrap.min.css">
+<!--CSS-->
+<link rel="stylesheet" type="text/css" href="assets/css/style.css">
+
 <head>
-    <title>Home</title>
-    <!-- Bootstrap -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootswatch/4.1.3/lux/bootstrap.min.css">
-    <!--CSS-->
-    <link rel="stylesheet" type="text/css" href="assets/css/style.css">
+    <title>BYOD</title>
 </head>
 
 <body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark ">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light ">
         <a class="navbar-brand" href="#"> <img src="https://getbootstrap.com/docs/4.1/assets/brand/bootstrap-solid.svg"
                 width="30" height="30" class="d-inline-block align-top" alt=""></a>
         <ul class="navbar-nav ml-auto">
@@ -20,24 +22,33 @@
                     Dropdown link
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                    <a class="dropdown-item" href="index.html">Home</a>
-                    <a class="dropdown-item" href="map.html">Regional</a>
+                    <a class="dropdown-item" href="#">Regional</a>
                     <a class="dropdown-item" href="#">Search</a>
+                    <a class="dropdown-item" href="#">XXX</a>
                 </div>
             </li>
         </ul>
     </nav>
+    <!--jumbotron-->
+    <div class="container mt-5">
+        <div class="jumbotron jumbotron-fluid">
+            <div id="jumbotron" class="text-center text-primary">
+                <h1>Bring Your Own Diet</h1>
+            </div>
+            <div class="container text-center" id="map">
+                <div id="vmap" style="width: auto; height: 500px;"></div>
+            </div>
+        </div>
+    </div>
 
-
-
-    <!-- jQuery library -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <!-- Popper.js Link Needed for Bootstrap -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
         crossorigin="anonymous"></script>
-    <!-- Bootstrap Js Link Needed -->
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
         crossorigin="anonymous"></script>
+    <!--Firebase-->
+    <script src="https://www.gstatic.com/firebasejs/5.5.8/firebase.js"></script>
+    <!--App.js-->
+    <script type="text/javascript" src="assets/javascript/app.js"></script>
 </body>
 
 </html>
