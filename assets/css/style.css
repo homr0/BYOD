@@ -1,3 +1,8 @@
 .jumbotron {
     background-color: rgb(255, 252 , 240 );
 }
+
+.jqvmap-zoomin, .jqvmap-zoomout {
+    width: 15px;
+    height: 15px;
+}
