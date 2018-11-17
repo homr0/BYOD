@@ -1,3 +1,38 @@
+@import url('https://fonts.googleapis.com/css?family=Kaushan+Script|Roboto|Roboto+Slab');
+
+
+body {
+    font-family: "Roboto", Arial, Helvetica, sans-serif;
+}
+
+nav {
+    max-height: 6rem;
+}
+
+#splash-page {
+    min-height: calc(100vh - 6rem);
+    position: relative;
+}
+
+#splash-page .row {
+    top: calc(50vh - 6rem);
+}
+
+#splash-page #splash-title {
+    font-family: "Kaushan Script", cursive;
+    font-size: 300%;
+}
+
+#splash-page #splash-subtitle {
+    font-family: "Roboto Slab", Georgia, 'Times New Roman', Times, serif;
+    font-size: 150%;
+}
+
 .jumbotron {
     background-color: rgb(255, 252 , 240 );
+}
+
+.jqvmap-zoomin, .jqvmap-zoomout {
+    width: 15px;
+    height: 15px;
 }
