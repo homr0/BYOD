@@ -20,31 +20,15 @@ jQuery(document).ready(function () {
 
     // Checks if this page is the splash page.
     if($("#splash-page").length) {
-        // Keeps track of meal times.
-        var bfast = {
-            start: moment("06:00", "HH:mm"),
-            end: moment("10:30", "HH:mm")
-        };
-            
-        var lunch = {
-            start: moment("11:30", "HH:mm"),
-            end: moment("14:30", "HH:mm")
-        };
-
-        var dinner = {
-            start: moment("17:00", "HH:mm"),
-            end: moment("21:00", "HH:mm")
-        };
-
         // Checks the time for different meals.
         function splashMeal() {
             let now = moment();
 
-            let bFastTime = (now.diff(bfast.start, "minutes") >= 0) && (now.diff(bfast.end, "minutes") <= 0);
+            let bFastTime = (now.diff(moment("06:00", "HH:mm"), "minutes") >= 0) && (now.diff(moment("10:30", "HH:mm"), "minutes") <= 0);
 
-            let lunchTime = (now.diff(lunch.start, "minutes") >= 0) && (now.diff(lunch.end, "minutes") <= 0);
+            let lunchTime = (now.diff(moment("11:30", "HH:mm"), "minutes") >= 0) && (now.diff(moment("14:30", "HH:mm"), "minutes") <= 0);
 
-            let dinnerTime = (now.diff(dinner.start, "minutes") >= 0) && (now.diff(dinner.end, "minutes") <= 0);
+            let dinnerTime = (now.diff(moment("17:00", "HH:mm"), "minutes") >= 0) && (now.diff(moment("21:00", "HH:mm"), "minutes") <= 0);
 
             let mealTime = "";
 
