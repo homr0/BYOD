@@ -28,11 +28,28 @@ nav {
     font-size: 150%;
 }
 
-.jumbotron {
-    background-color: rgb(255, 252 , 240 );
+#regional-page .jumbotron {
+    background-color: rgb(255, 252 , 240, 1);
+    background-image: url('../images/basic-ingredients.jpg');
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: center;
+    background-size: cover;
 }
 
-.jqvmap-zoomin, .jqvmap-zoomout {
+#regional-page h1 {
+    color: rgba(255, 252 , 240, 1);
+}
+
+#regional-page .jqvmap-zoomin, #regional-page .jqvmap-zoomout {
     width: 15px;
     height: 15px;
+    color: rgba(255, 252 , 240, 1);
+    background-color: rgba(0, 13, 25, 1);
 }
+
+#regional-page #vmap {
+    width: auto;
+    height: 500px;
+}
+
