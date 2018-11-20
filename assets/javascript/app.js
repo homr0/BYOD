@@ -32,16 +32,28 @@ jQuery(document).ready(function () {
 
             let mealTime = "";
 
+            // Changes the Splash page look to reflect the meal time.
             switch(true) {
                 case bFastTime:
                     mealTime = "It's breakfast time!";
+
+                    $("#splash-page").addClass("breakfast").removeClass("lunch dinner");
+
                     break;
                 case lunchTime:
                     mealTime = "It's lunch time!";
+
+                    $("#splash-page").addClass("lunch").removeClass("breakfash dinner");
+                    
                     break;
                 case dinnerTime:
                     mealTime = "It's dinner time!";
+
+                    $("#splash-page").addClass("dinner").removeClass("breakfast lunch");
+
                     break;
+                default:
+                    $("#splash-page").removeClass("breakfast lunch dinner");
             }
             $("#splash-time").text(mealTime);
         }

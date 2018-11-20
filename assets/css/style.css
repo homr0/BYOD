@@ -16,7 +16,20 @@ nav {
 
 #splash-page {
     min-height: calc(100vh - 6rem);
-    position: relative;
+    background-image: url('../images/basic-ingredients.jpg');
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: center;
+    background-size: cover;
+}
+
+#splash-page #splash-box {
+    background-color: rgba(255, 252 , 240, 0.75);
+    border-radius: 1.5rem;
+}
+
+#splash-page.breakfast {
+    background-image: url('../images/breakfast-icons-foods.jpg');
 }
 
 #splash-page .row {
@@ -58,3 +71,9 @@ nav {
     height: 500px;
 }
 
+/* Media query for styles on mobile. */
+@media only screen and (max-width: 576px) {
+    #splash-page .row {
+        top: calc(50vh - 10rem);
+    }
+}
