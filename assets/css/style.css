@@ -54,7 +54,7 @@ nav {
     font-size: 150%;
 }
 
-#regional-page .jumbotron {
+.jumbotron {
     background-color: rgb(255, 252 , 240, 1);
     background-image: url('../images/basic-ingredients.jpg');
     background-repeat: no-repeat;
@@ -63,7 +63,7 @@ nav {
     background-size: cover;
 }
 
-#regional-page h1 {
+.jumbotron h1 {
     color: rgba(255, 252 , 240, 1);
 }
 
