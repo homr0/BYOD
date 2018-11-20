@@ -32,8 +32,16 @@ nav {
     background-image: url('../images/breakfast-icons-foods.jpg');
 }
 
+#splash-page.lunch {
+    background-image: url('../images/basic-ingredients.jpg');
+}
+
+#splash-page.dinner {
+    background-image: url('../images/basic-ingredients.jpg');
+}
+
 #splash-page .row {
-    top: calc(50vh - 6rem);
+    top: calc(50vh - 8rem);
 }
 
 #splash-page #splash-title {
@@ -59,16 +67,16 @@ nav {
     color: rgba(255, 252 , 240, 1);
 }
 
-#regional-page .jqvmap-zoomin, #regional-page .jqvmap-zoomout {
+#regional-page #vmap {
+    width: auto;
+    height: 500px;
+}
+
+#vmap .jqvmap-zoomin, #vmap .jqvmap-zoomout {
     width: 15px;
     height: 15px;
     color: rgba(255, 252 , 240, 1);
     background-color: rgba(0, 13, 25, 1);
-}
-
-#regional-page #vmap {
-    width: auto;
-    height: 500px;
 }
 
 /* Media query for styles on mobile. */
