@@ -1,18 +1,19 @@
 <!-- Form Page Where Users May Search Recipes By Different Parameters -->
 <!DOCTYPE html>
 <html>
-<!-- Bootstrap -->
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootswatch/4.1.3/lux/bootstrap.min.css">
-<!--CSS-->
-<link rel="stylesheet" type="text/css" href="assets/css/style.css">
 
 <head>
     <meta charset="utf-8" />
     <title>Search Page</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootswatch/4.1.3/lux/bootstrap.min.css">
+    <!--CSS-->
+    <link rel="stylesheet" type="text/css" href="assets/css/style.css">
 </head>
 
 <body>
-
     <nav class="navbar navbar-expand-lg navbar-light bg-light ">
         <a class="navbar-brand" href="#"> <img src="https://getbootstrap.com/docs/4.1/assets/brand/bootstrap-solid.svg"
                 width="30" height="30" class="d-inline-block align-top" alt=""></a>
@@ -30,6 +31,7 @@
             </li>
         </ul>
     </nav>
+
     <!--jumbotron-->
     <div class="container mt-5">
         <div class="jumbotron jumbotron-fluid">
@@ -38,16 +40,17 @@
             </div>
         </div>
     </div>
+
     <div class="container mt-5">
         <form>
             <div class="form-group">
-                <label for="exampleFormControlInput1">Ingredient</label>
-                <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="i.e.chicken,beef,fish,etc">
+                <label for="ingredientQuery">Ingredient</label>
+                <input type="text" class="form-control" id="ingredientQuery" placeholder="i.e.chicken,beef,fish,etc">
             </div>
 
             <div class="form-group">
-                <label for="exampleFormControlSelect1">Quantity of Recipes</label>
-                <select class="form-control" id="exampleFormControlSelect1">
+                <label for="servingQuery">Quantity of Recipes</label>
+                <select class="form-control" id="servingQuery">
                     <option>1</option>
                     <option>2</option>
                     <option>3</option>
@@ -60,9 +63,10 @@
                     <option>10</option>
                 </select>
             </div>
+
             <div class="form-group">
-                <label for="exampleFormControlSelect2">Dietary Restrictions (Optional)</label>
-                <select class="form-control" id="exampleFormControlSelect2">
+                <label for="dietQuery">Dietary Restrictions (Optional)</label>
+                <select class="form-control" id="dietQuery">
                     <option>Choose</option>
                     <option>Balanced</option>
                     <option>High Fiber</option>
@@ -72,9 +76,10 @@
                     <option>Low-Sodium</option>
                 </select>
             </div>
+
             <div class="form-group">
-                <label for="exampleFormControlSelect3">Type of Recipes (Optional)</label>
-                <select class="form-control" id="exampleFormControlSelect3">
+                <label for="recipeQuery">Type of Recipes (Optional)</label>
+                <select class="form-control" id="recipeQuery">
                     <option>Choose</option>
                     <option>Vegan</option>
                     <option>Vegetarian</option>
@@ -83,17 +88,18 @@
                     <option>Peanuts</option>
                 </select>
         </form>
+    </div>
 
-        <!-- jQuery library -->
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
-            crossorigin="anonymous"></script>
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
-            crossorigin="anonymous"></script>
-        <!--Firebase-->
-        <script src="https://www.gstatic.com/firebasejs/5.5.8/firebase.js"></script>
-        <!--App.js-->
-        <script type="text/javascript" src="assets/javascript/app.js"></script>
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
+        crossorigin="anonymous"></script>
+    <!--Firebase-->
+    <script src="https://www.gstatic.com/firebasejs/5.5.8/firebase.js"></script>
+    <!--App.js-->
+    <script type="text/javascript" src="assets/javascript/app.js"></script>
 
 </body>
 
