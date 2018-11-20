@@ -9,6 +9,11 @@ nav {
     max-height: 6rem;
 }
 
+.navbar-brand img {
+    width: 30px;
+    height: 30px;
+}
+
 #splash-page {
     min-height: calc(100vh - 6rem);
     position: relative;
