@@ -2,7 +2,10 @@
 <html lang="en-us">
 
 <head>
+    <meta charset="utf-8">
     <title>Home</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
     <!-- Bootstrap -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootswatch/4.1.3/lux/bootstrap.min.css">
     <!--CSS-->
@@ -10,15 +13,18 @@
 </head>
 
 <body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark ">
-        <a class="navbar-brand" href="#"> <img src="https://getbootstrap.com/docs/4.1/assets/brand/bootstrap-solid.svg"
-                width="30" height="30" class="d-inline-block align-top" alt=""></a>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" href="#">
+            <img src="https://getbootstrap.com/docs/4.1/assets/brand/bootstrap-solid.svg" class="d-inline-block align-top" alt="">
+        </a>
+
         <ul class="navbar-nav ml-auto">
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown"
                     aria-haspopup="true" aria-expanded="false">
-                    Dropdown link
+                    Explore
                 </a>
+
                 <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                     <a class="dropdown-item" href="index.html">Home</a>
                     <a class="dropdown-item" href="map.html">Regional</a>
@@ -29,12 +35,18 @@
     </nav>
 
     <main id="splash-page" class="position-relative">
-        <div class="row position-absolute w-100 text-center mx-auto my-0">
-            <div class="col">
+        <div class="row position-absolute w-100 text-center mx-auto">
+            <div class="col-1 col-lg-3"></div>
+
+            <div class="col p-2" id="splash-box">
                 <h1 id="splash-title">Bring Your Own Diet</h1>
 
                 <p id="splash-subtitle">Recipe Inspirations for All Types of Food Lovers</p>
+
+                <h2 id="splash-time"></h2>
             </div>
+
+            <div class="col-1 col-lg-3"></div>
         </div>
     </main>
 
@@ -46,6 +58,13 @@
     <!-- Bootstrap Js Link Needed -->
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
         crossorigin="anonymous"></script>
+    <!--JQVMap Links -->
+    <script src="assets/javascript/jquery.vmap.js"></script>
+    <script src="assets/javascript/jquery.vmap.usa.js"></script>
+    <!-- Moment.js for timer -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.min.js"></script>
+    <!-- Custom JS -->
+    <script src="assets/javascript/app.js"></script>
 </body>
 
 </html>
