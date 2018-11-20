@@ -9,13 +9,39 @@ nav {
     max-height: 6rem;
 }
 
+.navbar-brand img {
+    width: 30px;
+    height: 30px;
+}
+
 #splash-page {
     min-height: calc(100vh - 6rem);
-    position: relative;
+    background-image: url('../images/basic-ingredients.jpg');
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: center;
+    background-size: cover;
+}
+
+#splash-page #splash-box {
+    background-color: rgba(255, 252 , 240, 0.75);
+    border-radius: 1.5rem;
+}
+
+#splash-page.breakfast {
+    background-image: url('../images/breakfast-icons-foods.jpg');
+}
+
+#splash-page.lunch {
+    background-image: url('../images/basic-ingredients.jpg');
+}
+
+#splash-page.dinner {
+    background-image: url('../images/basic-ingredients.jpg');
 }
 
 #splash-page .row {
-    top: calc(50vh - 6rem);
+    top: calc(50vh - 8rem);
 }
 
 #splash-page #splash-title {
@@ -28,11 +54,34 @@ nav {
     font-size: 150%;
 }
 
-.jumbotron {
-    background-color: rgb(255, 252 , 240 );
+#regional-page .jumbotron {
+    background-color: rgb(255, 252 , 240, 1);
+    background-image: url('../images/basic-ingredients.jpg');
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: center;
+    background-size: cover;
 }
 
-.jqvmap-zoomin, .jqvmap-zoomout {
+#regional-page h1 {
+    color: rgba(255, 252 , 240, 1);
+}
+
+#regional-page #vmap {
+    width: auto;
+    height: 500px;
+}
+
+#vmap .jqvmap-zoomin, #vmap .jqvmap-zoomout {
     width: 15px;
     height: 15px;
+    color: rgba(255, 252 , 240, 1);
+    background-color: rgba(0, 13, 25, 1);
+}
+
+/* Media query for styles on mobile. */
+@media only screen and (max-width: 576px) {
+    #splash-page .row {
+        top: calc(50vh - 10rem);
+    }
 }
