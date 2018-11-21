@@ -154,7 +154,19 @@ jQuery(document).ready(function () {
                     img = response.hits[i].recipe.image;
                     orgURL = response.hits[i].recipe.url;
 
-                    $("#modalBody").append('<button class="recipeImg" type="button" data-dish="' + label +'" data-url="'+orgURL+'"><img alt="' + label + '" src="' + img + '"></button');
+                    var recipeImg = $("<img>").attr({
+                        "alt": label,
+                        "src": img
+                    });
+
+                    var recipeButton = $("<button>").addClass("recipeImg").attr({
+                        "type": "button",
+                        "data-dish": label,
+                        "data-url": orgURL
+                    }).append(recipeImg);
+
+                    // $("#modalBody").append('<button class="recipeImg" type="button" data-dish="' + label +'" data-url="'+orgURL+'"><img alt="' + label + '" src="' + img + '"></button');
+                    $("#modalBody").append(recipeButton);
                 }
             });
 
