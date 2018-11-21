@@ -15,6 +15,9 @@
 </head>
 
 <body>
+
+
+
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <a class="navbar-brand" href="#"> <img src="https://getbootstrap.com/docs/4.1/assets/brand/bootstrap-solid.svg" class="d-inline-block align-top" alt=""></a>
         <ul class="navbar-nav ml-auto">
@@ -53,6 +56,30 @@
 
     </div>
 
+    <div class="modal" tabindex="-1" role="dialog" id="testModal">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="modal-title">Modal title</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <img id="modal-recipe-img" src="" alt="">
+                        <p id="modal-recipe-description"></p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+
+  
     <!-- jQuery library -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <!-- Popper.js Link Needed for Bootstrap -->
