@@ -1,5 +1,4 @@
 jQuery(document).ready(function () {
-<<<<<<< HEAD
     // Initialize Firebase
     var config = {
         apiKey: "AIzaSyBRwZRG6eCVCYqeoVCSLcopNEFiDKIrips",
@@ -119,14 +118,12 @@ jQuery(document).ready(function () {
     });
 
     // jQuery Vector Map
-=======
 
     var queryURL;
     var img;
     var label;
     var orgURL;
 
->>>>>>> master
     jQuery('#vmap').vectorMap({
         map: 'usa_en',
         backgroundColor: null,
@@ -190,13 +187,8 @@ jQuery(document).ready(function () {
                 case lunchTime:
                     mealTime = "It's lunch time!";
 
-<<<<<<< HEAD
                     $("#splash-page").addClass("lunch").removeClass("breakfast dinner");
                     
-=======
-                    $("#splash-page").addClass("lunch").removeClass("breakfash dinner");
-
->>>>>>> master
                     break;
                 case dinnerTime:
                     mealTime = "It's dinner time!";
