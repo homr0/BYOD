@@ -29,15 +29,15 @@ nav {
 }
 
 #splash-page.breakfast {
-    background-image: url('../images/breakfast-icons-foods.jpg');
+    background-image: url('../images/breakfast.jpg');
 }
 
 #splash-page.lunch {
-    background-image: url('../images/basic-ingredients.jpg');
+    background-image: url('../images/lunch.jpg');
 }
 
 #splash-page.dinner {
-    background-image: url('../images/basic-ingredients.jpg');
+    background-image: url('../images/dinner.jpg');
 }
 
 #splash-page .row {
