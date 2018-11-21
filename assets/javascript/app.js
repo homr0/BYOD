@@ -11,9 +11,23 @@ jQuery(document).ready(function () {
         },
         onRegionClick: function (event, code, region) {
             event.preventDefault();
-            console.log(region);
+            //console.log(region);
+
+            let imgURL = " " ; // You will set this value from the API
+            let imgAlt = " " ;
+            
+            $('#modal-title').text(region);
+            $('#modal-recipe-img').attr("src",imgURL);
+            $('#modal-recipe-img').attr("alt",imgAlt);
+            $('#modal-recipe-description').text(region);
+
+            $('#testModal').modal('show');
+
+
             if (region === "California") {
-               console.log(region+" Clicked!");
+               //console.log(region+" Clicked!");
+               $('#testModal').modal('show');
+               
             }
         }
     });
