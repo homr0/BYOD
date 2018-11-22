@@ -162,10 +162,10 @@ jQuery(document).ready(function () {
                     var recipeButton = $("<button>").addClass("recipeImg").attr({
                         "type": "button",
                         "data-dish": label,
-                        "data-url": orgURL
+                        "data-url": orgURL,
+                        "data-dismiss": "modal"
                     }).append(recipeImg);
 
-                    // $("#modalBody").append('<button class="recipeImg" type="button" data-dish="' + label +'" data-url="'+orgURL+'"><img alt="' + label + '" src="' + img + '"></button');
                     $("#modalBody").append(recipeButton);
                 }
             });
@@ -227,12 +227,8 @@ jQuery(document).ready(function () {
     =======================================================
     */
     function addCard() {
-        $("#recipeSpace").empty();
-        var card = $("<div>");
-        $(card).addClass("card");
-        $(card).append("<div class='card-header'><strong><i class='fas fa-info-circle'></i> Recipe Details</strong></div>");
-        $(card).append("<div class='card-body' id='recipeIns'></div>");
-        $("#recipeSpace").append(card);
+        $("#recipeIngredients").empty();
+        $("#recipeSpace").show();
     }
 
     /*
@@ -242,8 +238,6 @@ jQuery(document).ready(function () {
     =======================================================
     */
     $(document).on("click", ".recipeImg", function () {
-        $("#modalCenter").modal("hide");
-
         addCard();
 
         var dish = $(this).attr("data-dish");
@@ -255,32 +249,33 @@ jQuery(document).ready(function () {
             url: queryURL,
             method: "GET"
         }).then(function (response) {
-            //console.log(response);
-            label = response.hits[0].recipe.label;
-            img = response.hits[0].recipe.image;
-            let servings=response.hits[0].recipe.yield;
-            let ctgCount=response.hits[0].recipe.healthLabels.length;
-            let categories=response.hits[0].recipe.healthLabels;
+            let recipe = response.hits[0].recipe;
+            label = recipe.label;
+            let categories = recipe.healthLabels;
+            let ingredients = recipe.ingredientLines;
 
-            $("#recipeIns").append("<h3>" + label + "</h3>");
-            $("#recipeIns").append("<hr class='my-4'>");
-            $("#recipeIns").append("<img alt='" + label + "' src='" + img + "'>");
-            $("#recipeIns").append("<br><p>Servings: "+servings+"</p>");
-            $("#recipeIns").append("<br><strong><p>Ingredients: </p></strong>");
+            $("#recipeIns h3").text(label);
+            $("#recipeIns img").attr({
+                "alt": label,
+                "src": recipe.image
+            });
+            $("#servings").text(recipe.yield);
 
-            for (var j = 0; j < response.hits[0].recipe.ingredientLines.length; j++) {
-                let ing = response.hits[0].recipe.ingredientLines[j];
+            for (var j = 0; j < ingredients.length; j++) {
+                let ing = $("<p>").text(ingredients[j]);
 
-                $("#recipeIns").append("<p>" + ing + "</p>");
+                $("#recipeIngredients").append(ing);
             }
 
-            if(ctgCount>0){
-                $("#recipeIns").append("<br><p>This recipe is "+categories+"</p>");
+            if(categories.length > 0) {
+                $("#recipeCtg").show();
+                $("#categories").text(categories.join(", "));
+            } else {
+                $("#recipeCtg").hide();
+                $("#categories").text("");
             }
 
-
-            $("#recipeIns").append("<br><p>For More Information <a href='"+link+"'><i class='fas fa-external-link-alt'></i></a></p>")
-            $("#recipeIns").append("<br><button type='button' class='btn btn-outline-dark' id='closeRecipe'>Close</button>");
+            $("#recipeIns a").attr("href", link);
         });
 
     });
@@ -292,7 +287,8 @@ jQuery(document).ready(function () {
     =======================================================
     */    
    $(document).on("click","#closeRecipe",function(){
-        $("#recipeSpace").empty();
+        // $("#recipeSpace").empty();
+        $("#recipeSpace").hide();
    });
 
 });
