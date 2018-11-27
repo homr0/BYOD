@@ -14,25 +14,21 @@
 </head>
 
 <body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <a class="navbar-brand" href="#"> 
+    <nav class="navbar navbar-expand-lg">
+        <a class="navbar-brand" href="index.html">
             <img src="https://getbootstrap.com/docs/4.1/assets/brand/bootstrap-solid.svg" class="d-inline-block align-top" alt="">
         </a>
-
-        <ul class="navbar-nav ml-auto">
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown"
-                    aria-haspopup="true" aria-expanded="false">
-                    Explore
-                </a>
-
-                <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                    <a class="dropdown-item" href="index.html">Home</a>
-                    <a class="dropdown-item" href="map.html">Regional Inspirations</a>
-                    <a class="dropdown-item" href="search.html">Search</a>
-                </div>
-            </li>
-        </ul>
+            <ul class="nav nav-pills ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="index.html">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="map.html">Regional Inspirations</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" href="search.html">Search Recipes</a>
+                </li>
+            </ul>
     </nav>
 
     <!--jumbotron-->
@@ -44,7 +40,7 @@
         </div>
     </div>
 
-    <div class="container mt-5">
+    <div class="container mt-5 text-dark">
         <form>
             <div class="form-group">
                 <label for="ingredient">Ingredient</label>
