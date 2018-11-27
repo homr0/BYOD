@@ -79,6 +79,27 @@ nav {
     background-color: rgba(0, 13, 25, 1);
 }
 
+.modal-dialog {
+    max-width: calc(100% - 3rem);
+}
+
+.modal-dialog .recipeImg {
+    max-width: 20%;
+    cursor: pointer;
+}
+
+.recipeImg img {
+    max-width: 100%;
+}
+
+#recipeSpace {
+    display: none;
+}
+
+#recipeSpace .card-header {
+    font-weight: 700;
+}
+
 /* Media query for styles on mobile. */
 @media only screen and (max-width: 576px) {
     #splash-page .row {

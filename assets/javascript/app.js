@@ -1,4 +1,123 @@
 jQuery(document).ready(function () {
+    // Initialize Firebase
+    var config = {
+        apiKey: "AIzaSyBRwZRG6eCVCYqeoVCSLcopNEFiDKIrips",
+        authDomain: "bring-your-own-diet.firebaseapp.com",
+        databaseURL: "https://bring-your-own-diet.firebaseio.com",
+        projectId: "bring-your-own-diet",
+        storageBucket: "bring-your-own-diet.appspot.com",
+        messagingSenderId: "50377680750"
+    };
+    firebase.initializeApp(config);
+
+    // Sets up global variables.
+    // Assigns reference to the database.
+    var database = firebase.database();
+    
+    // Diet filters
+    var diets = [
+        "High Fiber", "High Protein", "Low Carb", "Low Fat",
+        "Low Sodium", "Vegan", "Vegetarian", "Gluten free"
+    ];
+    
+    // Regions with states and colors.
+    var regions = {
+        "New England": {
+            states: [
+                "CT", "ME", "MA", "NH", "RI", "VT"
+            ],
+            color: "#00ffff"
+        },
+
+        "Mid-Atlantic": {
+            states: [
+                "NJ", "NY", "PA", "DE", "DC", "MD"
+            ],
+            color: "#ff00ff"
+        },
+
+        "Great Lakes": {
+            states: [
+                "IL", "IN", "MI", "MN", "OH", "WI"
+            ],
+            color: "#ffff00"
+        },
+
+        "Midwest": {
+            states: [
+                "IA", "KS", "ND", "SD", "MO", "NE"
+            ],
+            color: "#ff0000"
+        },
+
+        "South": {
+            states: [
+                "FL", "GA", "NC", "SC", "VA", "WV", "AL", "KY", "MS", "TN", "AR", "LA", "OK", "TX"
+            ],
+            color: "#00ff00"
+        },
+
+        "Mountain": {
+            states: [
+                "AZ", "CO", "ID", "MT", "NM", "NV", "UT", "WY"
+            ],
+            color: "#0000ff"
+        },
+
+        "Pacific": {
+            states: [
+                "AK", "CA", "HI", "OR", "WA"
+            ],
+            color: "#999999"
+        }
+    };
+
+    // Sets up region colors.
+    var regionColors = {};
+    $.each(regions, function(key, region) {
+        $(region.states).each(function(index, state) {
+            regionColors[state.toLowerCase()] = region.color;
+        });
+    });
+
+    // Initialize the FirebaseUI Widget using Firebase.
+    var ui = new firebaseui.auth.AuthUI(firebase.auth());
+
+    // Handles user authentication
+    var uiConfig = {
+        callbacks: {
+            signInSuccessWithAuthResult: function(authResult, redirectURL) {
+                // User successfully signed in.
+                $("#firebaseui-auth-container").hide();
+                return false;
+            },
+
+            uiShown: function() {
+                // The widget is rendered.
+                $("#firebaseui-auth-container").hide();
+            }
+        },
+        signInFlow: 'default',
+        // signInSuccessUrl: 'index.html',
+        signInOptions: [
+            // firebase.auth.GoogleAuthProvider.PROVIDER_ID,
+            firebase.auth.EmailAuthProvider.PROVIDER_ID
+        ]
+    };
+
+    // Watches for user status.
+    firebase.auth().onAuthStateChanged(function(user) {
+        if(user) {
+            // User is signed in.
+            console.log(user.displayName + " has logged in");
+        } else {
+            // User is signed out.
+            // The start method will wait until the DOM is loaded.
+            ui.start("#firebaseui-auth-container", uiConfig);
+        }
+    });
+
+    // jQuery Vector Map
 
     var queryURL;
     var img;
@@ -13,8 +132,7 @@ jQuery(document).ready(function () {
         showTooltip: true,
         selectedColor: null,
         hoverColor: null,
-        colors: {
-        },
+        colors: regionColors,
         onRegionClick: function (event, code, region) {
             event.preventDefault();
 
@@ -36,7 +154,19 @@ jQuery(document).ready(function () {
                     img = response.hits[i].recipe.image;
                     orgURL = response.hits[i].recipe.url;
 
-                    $("#modalBody").append('<button class="recipeImg" type="button" data-dish="' + label +'" data-url="'+orgURL+'"><img alt="' + label + '" src="' + img + '"></button');
+                    var recipeImg = $("<img>").attr({
+                        "alt": label,
+                        "src": img
+                    });
+
+                    var recipeButton = $("<button>").addClass("recipeImg").attr({
+                        "type": "button",
+                        "data-dish": label,
+                        "data-url": orgURL,
+                        "data-dismiss": "modal"
+                    }).append(recipeImg);
+
+                    $("#modalBody").append(recipeButton);
                 }
             });
 
@@ -69,8 +199,8 @@ jQuery(document).ready(function () {
                 case lunchTime:
                     mealTime = "It's lunch time!";
 
-                    $("#splash-page").addClass("lunch").removeClass("breakfash dinner");
-
+                    $("#splash-page").addClass("lunch").removeClass("breakfast dinner");
+                    
                     break;
                 case dinnerTime:
                     mealTime = "It's dinner time!";
@@ -97,12 +227,8 @@ jQuery(document).ready(function () {
     =======================================================
     */
     function addCard() {
-        $("#recipeSpace").empty();
-        var card = $("<div>");
-        $(card).addClass("card");
-        $(card).append("<div class='card-header'><strong><i class='fas fa-info-circle'></i> Recipe Details</strong></div>");
-        $(card).append("<div class='card-body' id='recipeIns'></div>");
-        $("#recipeSpace").append(card);
+        $("#recipeIngredients").empty();
+        $("#recipeSpace").show();
     }
 
     /*
@@ -112,8 +238,6 @@ jQuery(document).ready(function () {
     =======================================================
     */
     $(document).on("click", ".recipeImg", function () {
-        $("#modalCenter").modal("hide");
-
         addCard();
 
         var dish = $(this).attr("data-dish");
@@ -125,32 +249,33 @@ jQuery(document).ready(function () {
             url: queryURL,
             method: "GET"
         }).then(function (response) {
-            //console.log(response);
-            label = response.hits[0].recipe.label;
-            img = response.hits[0].recipe.image;
-            let servings=response.hits[0].recipe.yield;
-            let ctgCount=response.hits[0].recipe.healthLabels.length;
-            let categories=response.hits[0].recipe.healthLabels;
+            let recipe = response.hits[0].recipe;
+            label = recipe.label;
+            let categories = recipe.healthLabels;
+            let ingredients = recipe.ingredientLines;
 
-            $("#recipeIns").append("<h3>" + label + "</h3>");
-            $("#recipeIns").append("<hr class='my-4'>");
-            $("#recipeIns").append("<img alt='" + label + "' src='" + img + "'>");
-            $("#recipeIns").append("<br><p>Servings: "+servings+"</p>");
-            $("#recipeIns").append("<br><strong><p>Ingredients: </p></strong>");
+            $("#recipeIns h3").text(label);
+            $("#recipeIns img").attr({
+                "alt": label,
+                "src": recipe.image
+            });
+            $("#servings").text(recipe.yield);
 
-            for (var j = 0; j < response.hits[0].recipe.ingredientLines.length; j++) {
-                let ing = response.hits[0].recipe.ingredientLines[j];
+            for (var j = 0; j < ingredients.length; j++) {
+                let ing = $("<p>").text(ingredients[j]);
 
-                $("#recipeIns").append("<p>" + ing + "</p>");
+                $("#recipeIngredients").append(ing);
             }
 
-            if(ctgCount>0){
-                $("#recipeIns").append("<br><p>This recipe is "+categories+"</p>");
+            if(categories.length > 0) {
+                $("#recipeCtg").show();
+                $("#categories").text(categories.join(", "));
+            } else {
+                $("#recipeCtg").hide();
+                $("#categories").text("");
             }
 
-
-            $("#recipeIns").append("<br><p>For More Information <a href='"+link+"'><i class='fas fa-external-link-alt'></i></a></p>")
-            $("#recipeIns").append("<br><button type='button' class='btn btn-outline-dark' id='closeRecipe'>Close</button>");
+            $("#recipeIns a").attr("href", link);
         });
 
     });
@@ -162,7 +287,8 @@ jQuery(document).ready(function () {
     =======================================================
     */    
    $(document).on("click","#closeRecipe",function(){
-        $("#recipeSpace").empty();
+        // $("#recipeSpace").empty();
+        $("#recipeSpace").hide();
    });
 
 });
