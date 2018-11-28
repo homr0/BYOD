@@ -104,6 +104,19 @@ nav {
     display: none;
 }
 
+#recipeSpace #recipeAdd, #recipeSpace #recipeRemove {
+    color: rgba(255, 255, 255, 1);
+}
+
+#recipeSpace #recipeAdd {
+    background-color: rgba(31, 31, 255, 0.9);
+}
+
+#recipeSpace #recipeRemove {
+    background-color: rgba(255, 31, 31, 0.9);
+    display: none;
+}
+
 #recipeSpace .card-header {
     font-weight: 700;
 }

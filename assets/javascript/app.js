@@ -14,12 +14,6 @@ jQuery(document).ready(function () {
     // Assigns reference to the database.
     var database = firebase.database();
     
-    // Diet filters
-    var diets = [
-        "High Fiber", "High Protein", "Low Carb", "Low Fat",
-        "Low Sodium", "Vegan", "Vegetarian", "Gluten free"
-    ];
-    
     // Regions with states and colors.
     var regions = {
         "New England": {
@@ -115,7 +109,6 @@ jQuery(document).ready(function () {
     firebase.auth().onAuthStateChanged(function(user) {
         if(user) {
             // User is signed in.
-            console.log(user.displayName + " has logged in");
             $("#firebaseui-auth-container").modal('hide');
 
             uname = user.displayName;
@@ -330,6 +323,24 @@ jQuery(document).ready(function () {
             }
 
             $("#recipeIns a").attr("href", link);
+
+            let recip
+
+            // Checks the user's favorite recipes to see if the recipe is on there.
+            // Creates a 
+            $.each(favRecipes, function(name, info) {
+                // Checks if the uri is the same.
+                if(info.uri == recipe.uri) {
+                    $("#recipeSpace #recipeAdd").hide();
+                    $("#recipeSpace #recipeRemove").show();
+                    return false;
+                }
+            });
+
+            let uri = recipe.uri;
+            let recipeId = uri.substring(uri.indexOf("recipe_"));
+            $("#recipeAdd, #recipeRemove").attr("data-id", recipeId);
+            $("#recipeAdd").attr("data-recipe", JSON.stringify(recipe));
         });
 
     });
@@ -342,7 +353,50 @@ jQuery(document).ready(function () {
     */    
    $(document).on("click","#closeRecipe",function(){
         // $("#recipeSpace").empty();
+        $("#recipeAdd").removeAttr("data-recipe");
+        $("#recipeAdd, #recipeRemove").remove("data-id");
         $("#recipeSpace").hide();
    });
 
+   // Adds a recipe to favorite recipes.
+   $("#recipeAdd").on("click", function() {
+        $("#recipeAdd").hide();
+        $("#recipeRemove").show();
+        
+        let recipe = JSON.parse($("#recipeAdd").attr("data-recipe"));
+        let recipeId = $(this).attr("data-id");
+
+        // Adds it to the local array
+        favRecipes[$(this).attr("data-id")] = {
+            uri: recipe.uri,
+            name: $("#recipeIns h3").text(),
+            url: $("#recipeIns a").attr("href"),
+            image: $("#recipeIns img").attr("src"),
+            ingredients: recipe.ingredientLines,
+            servings: $("#servings").text(),
+            calories: $("#calories").text(),
+            fat: $("#fat").text(),
+            sodium: $("#sodium").text(),
+            sugar: $("#sugar").text(),
+            protein: $("#protein").text(),
+            type: "recipe"
+        }
+
+        // Adds it to the Firebase favorites.
+        database.ref("users/" + uid + "/favorites").child(recipeId).set(favRecipes[recipeId]);
+   });
+
+   // Removes a recipe from favorites.
+   $("#recipeRemove").on("click", function() {
+        $("#recipeAdd").show();
+        $("#recipeRemove").hide();
+
+        let recipeId = $(this).attr("data-id");
+
+        // Removes the recipe from the favorite recipes object.
+        delete favRecipes[recipeId];
+
+        // Removes the recipe from the Firebase favorites.
+        database.ref("users/" + uid + "/favorites/" + recipeId).remove();
+   });
 });
