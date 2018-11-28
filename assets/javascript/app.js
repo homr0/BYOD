@@ -26,51 +26,57 @@ jQuery(document).ready(function () {
             states: [
                 "CT", "ME", "MA", "NH", "RI", "VT"
             ],
-            color: "#00ffff"
+            color: "#00ff00"
         },
 
         "Mid-Atlantic": {
             states: [
                 "NJ", "NY", "PA", "DE", "DC", "MD"
             ],
-            color: "#ff00ff"
+            color: "#00ff00"
         },
 
         "Great Lakes": {
             states: [
-                "IL", "IN", "MI", "MN", "OH", "WI"
+                "IL", "IN", "MI",  "OH", "WI"
             ],
-            color: "#ffff00"
+            color: "#00ff00"
         },
 
         "Midwest": {
             states: [
-                "IA", "KS", "ND", "SD", "MO", "NE"
+                "IA", "KS", "ND", "SD", "MO", "NE","TX","LA","OK","AR","MN"
             ],
             color: "#ff0000"
         },
 
         "South": {
             states: [
-                "FL", "GA", "NC", "SC", "VA", "WV", "AL", "KY", "MS", "TN", "AR", "LA", "OK", "TX"
+                "FL", "GA", "NC", "SC", "VA", "WV", "AL", "KY", "MS", "TN", 
             ],
             color: "#00ff00"
         },
 
         "Mountain": {
             states: [
-                "AZ", "CO", "ID", "MT", "NM", "NV", "UT", "WY"
+                "AZ", "CO", "ID", "MT", "NM", "UT", "WY"
             ],
             color: "#0000ff"
         },
 
         "Pacific": {
             states: [
-                "AK", "CA", "HI", "OR", "WA"
+                "AK", "CA", "HI", "OR", "WA","NV"
             ],
-            color: "#999999"
+            color: "#FFFF00"
         }
     };
+
+    // Favorite recipes and places.
+    var uname = "";
+    var uid = "";
+    var favPlaces = {};
+    var favRecipes = {};
 
     // Sets up region colors.
     var regionColors = {};
@@ -88,13 +94,13 @@ jQuery(document).ready(function () {
         callbacks: {
             signInSuccessWithAuthResult: function (authResult, redirectURL) {
                 // User successfully signed in.
-                $("#firebaseui-auth-container").hide();
+                $("#firebaseui-auth-container").modal('hide');
                 return false;
             },
 
             uiShown: function () {
                 // The widget is rendered.
-                $("#firebaseui-auth-container").hide();
+                $("#firebaseui-auth-container").modal('show');
             }
         },
         signInFlow: 'default',
@@ -110,11 +116,45 @@ jQuery(document).ready(function () {
         if (user) {
             // User is signed in.
             console.log(user.displayName + " has logged in");
+            $("#firebaseui-auth-container").modal('hide');
+
+            uname = user.displayName;
+            uid = user.uid;
+
+            // Checks if the user has an account.
+            database.ref("users").once("value").then(function(user) {
+                // If the user doesn't exist, then add them to the database.
+                if(!(user.child(uid).exists())) {
+                    database.ref("users").child(uid).set({
+                        name: uname
+                    });
+                }
+            });
+
+            // Show the favorites page.
+            $("#favorites-page").removeClass("d-none");
         } else {
             // User is signed out.
+            // Hides and cleans the favorites page.
+            $("#favorites-page").addClass("d-none");
+            $("#favorite-recipes, #favorite-places").empty();
+            favRecipes = {};
+            favPlaces = {};
+    
             // The start method will wait until the DOM is loaded.
             ui.start("#firebaseui-auth-container", uiConfig);
         }
+    });
+
+    // At the initial load and subsequent value changes, keep track of the favorited recipes and places.
+    database.ref("users/" + uid).on("child_added", function(user) {
+        $.each(user.val().favorites, function(name, info) {
+            if(info.type == "recipe") {
+                favRecipes[name] = info;
+            } else if(info.type == "place") {
+                favPlaces[name] = info;
+            }
+        });
     });
 
     // jQuery Vector Map
