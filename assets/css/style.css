@@ -5,13 +5,13 @@ body {
     font-family: "Roboto", Arial, Helvetica, sans-serif;
 }
 
-nav {
-    max-height: 6rem;
+.navbar {
+    z-index: 9999;
 }
 
 .navbar-brand img {
-    width: 30px;
-    height: 30px;
+    width: 35px;
+    height: 35px;
 }
 
 #splash-page {
