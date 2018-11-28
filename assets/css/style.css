@@ -40,10 +40,6 @@ nav {
     background-image: url('../images/dinner.jpg');
 }
 
-#splash-page .row {
-    top: calc(50vh - 8rem);
-}
-
 #splash-page #splash-title {
     font-family: "Kaushan Script", cursive;
     font-size: 300%;
@@ -52,6 +48,10 @@ nav {
 #splash-page #splash-subtitle {
     font-family: "Roboto Slab", Georgia, 'Times New Roman', Times, serif;
     font-size: 150%;
+}
+
+#favorites-page {
+    top: calc(100vh - 6rem);
 }
 
 .jumbotron {
@@ -65,6 +65,8 @@ nav {
 
 .jumbotron h1 {
     color: rgba(255, 252 , 240, 1);
+    font-family: "Roboto Slab", Georgia, 'Times New Roman', Times, serif;
+    text-transform: capitalize;
 }
 
 #regional-page #vmap {
