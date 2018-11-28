@@ -5,6 +5,11 @@ body {
     font-family: "Roboto", Arial, Helvetica, sans-serif;
 }
 
+h1, h2, #splash-subtitle {
+    font-family: "Roboto Slab", Georgia, 'Times New Roman', Times, serif;
+    text-transform: capitalize;
+}
+
 nav {
     max-height: 6rem;
 }
@@ -46,8 +51,8 @@ nav {
 }
 
 #splash-page #splash-subtitle {
-    font-family: "Roboto Slab", Georgia, 'Times New Roman', Times, serif;
     font-size: 150%;
+    text-transform: none;
 }
 
 #favorites-page {
@@ -65,8 +70,6 @@ nav {
 
 .jumbotron h1 {
     color: rgba(255, 252 , 240, 1);
-    font-family: "Roboto Slab", Georgia, 'Times New Roman', Times, serif;
-    text-transform: capitalize;
 }
 
 #regional-page #vmap {
