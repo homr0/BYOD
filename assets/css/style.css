@@ -98,6 +98,24 @@ nav {
     max-width: 100%;
 }
 
+.modal-dialog .restImg {
+    max-width: 20%;
+    cursor: pointer;
+}
+
+.searchImg img {
+    max-width: 100%;
+}
+
+.modal-dialog .searchImg {
+    max-width: 20%;
+    cursor: pointer;
+}
+
+.restImg img {
+    max-width: 100%;
+}
+
 #recipeSpace {
     display: none;
 }
@@ -109,6 +127,11 @@ nav {
 #logo {
     width: 125px;
     height: 60px;
+}
+
+.center {
+    align-content: center;
+    text-align: center;
 }
 
 /* Media query for styles on mobile. */
