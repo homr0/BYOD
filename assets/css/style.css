@@ -76,6 +76,7 @@ nav {
 #regional-page #vmap {
     width: auto;
     height: 500px;
+    opacity: 0.8;
 }
 
 #vmap .jqvmap-zoomin, #vmap .jqvmap-zoomout {
@@ -83,6 +84,7 @@ nav {
     height: 15px;
     color: rgba(255, 252 , 240, 1);
     background-color: rgba(0, 13, 25, 1);
+    
 }
 
 .modal-dialog {
