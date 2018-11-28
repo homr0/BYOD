@@ -5,7 +5,8 @@
     <meta charset="utf-8">
     <title>Regional</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
+    <!-- Animate -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
     <!-- Bootstrap -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootswatch/4.1.3/lux/bootstrap.min.css">
     <!-- JQVMap -->
@@ -13,36 +14,26 @@
     <!-- Firebase UI -->
     <link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/3.1.1/firebaseui.css">
     <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU"
+        crossorigin="anonymous">
     <!--CSS-->
     <link rel="stylesheet" type="text/css" href="assets/css/style.css">
 </head>
 
 <body>
 
-        <nav class="navbar navbar-expand-lg">
-            <a class="navbar-brand" href="index.html">
-                <img src="https://getbootstrap.com/docs/4.1/assets/brand/bootstrap-solid.svg" class="d-inline-block align-top" alt="">
-            </a>
-                <ul class="nav nav-pills ml-auto">
-                    <li class="nav-item">
-                      <a class="nav-link" href="index.html">Home</a>
-                    </li>
-                    <li class="nav-item">
-                      <a class="nav-link active" href="map.html">Regional Inspirations</a>
-                    </li>
-                    <li class="nav-item">
-                      <a class="nav-link" href="search.html">Search Recipes</a>
-                    </li>
-                </ul>
-        </nav>
+
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a href="index.html"> 
+            <img src="assets/images/byod.png" class="d-inline-block align-top" alt="BYOD Logo Food Stand" id="logo">
+        </a>
+    </nav>
 
     <!-- Firebase UI for sign-in -->
     <div id="firebaseui-auth-container"></div>
-    
+
     <!-- Modal -->
-    <div class="modal fade" id="modalCenter" tabindex="-1" role="dialog" aria-labelledby="modalCenterTitle"
-        aria-hidden="true">
+    <div class="modal fade" id="modalCenter" tabindex="-1" role="dialog" aria-labelledby="modalCenterTitle" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -51,14 +42,9 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <ul class ="navbar nav-tabs nav-justified" id="tabContent">
-                    <li class="active"><a href="tab1" data-toggle="tab">Cook It Yourself</a></li>
-                        <li><a href="tab2" data-toggle="tab">Go Out to Eat</a></li>
-                </ul>
-                <div class="tab-content">
-                    <div class="tab-pane active" id="modal body">
 
-                    </div>
+                <div class="modal-body" id="modalBody">
+
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-outline-dark" data-dismiss="modal">Close</button>
@@ -73,7 +59,7 @@
         <div class="jumbotron jumbotron-fluid">
             <!--jumbotron-->
             <div id="jumbotron" class="text-center text-primary mt-0">
-                <h1>Bring Your Own Diet</h1>
+                <h1 class="animated flipInY">Get Inspired</h1>
             </div>
             <div class="container text-center" id="map">
                 <div id="vmap"></div>
@@ -96,36 +82,64 @@
 
                 <p>Servings: <span id="servings">0</span></p>
 
-                <p><strong>Ingredients:</strong></p>
 
-                <div id="recipeIngredients"></div>
 
-                <p id="recipeCtg">This recipe is <span id="categories"></span>.</p>
+                <div class="nutrition">
+                    <div class="card">
+                        <div class="card-header" id="headingOne">
+                            <h5 class="mb-0">
+                                <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne"
+                                    aria-expanded="true" aria-controls="collapseOne">
+                                    Nutritional Value
+                                </button>
+                            </h5>
+                        </div>
 
-                <p>For more information <a href="#"><i class="fas fa-external-link-alt"></i></a></p>
+                        <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
+                            <div class="card-body">
+                                <ul>
+                                    <li>Calories: <span id='calories'>0</span></li>
+                                    <li>Fat: <span id='fat'>0</span>g</li>
+                                    <li>Sodium: <span id='sodium'>0</span>g</li>
+                                    <li>Sugar: <span id='sugar'>0</span>g</li>
+                                    <li>Protein: <span id='protein'>0</span>g</li>
+                                </ul>
 
-                <button type="button" class="btn btn-outline-dark" id="closeRecipe">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                    <p><strong>Ingredients:</strong></p>
+
+                    <div id="recipeIngredients"></div>
+
+                    <p id="recipeCtg">This recipe is <span id="categories"></span>.</p>
+
+                    <p>For more information <a href="#"><i class="fas fa-external-link-alt"></i></a></p>
+
+                    <button type="button" class="btn btn-outline-dark" id="closeRecipe">Close</button>
+                
             </div>
         </div>
-    </div>
-  
-    <!-- jQuery library -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <!-- Popper.js Link Needed for Bootstrap -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
-        crossorigin="anonymous"></script>
-    <!-- Bootstrap Js Link Needed -->
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
-        crossorigin="anonymous"></script>
-    <!-- Firebase -->
-    <script src="https://www.gstatic.com/firebasejs/5.5.8/firebase.js"></script>
-    <script src="https://cdn.firebase.com/libs/firebaseui/3.1.1/firebaseui.js"></script>
-    <!--Map Links -->
-    <script src="assets/javascript/jquery.vmap.js"></script>
-    <script src="assets/javascript/jquery.vmap.usa.js"></script>
 
-    <!--App.js-->
-    <script type="text/javascript" src="assets/javascript/app.js"></script>
+        <!-- jQuery library -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <!-- Popper.js Link Needed for Bootstrap -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+            crossorigin="anonymous"></script>
+        <!-- Bootstrap Js Link Needed -->
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
+            crossorigin="anonymous"></script>
+        <!-- Firebase -->
+        <script src="https://www.gstatic.com/firebasejs/5.5.8/firebase.js"></script>
+        <script src="https://cdn.firebase.com/libs/firebaseui/3.1.1/firebaseui.js"></script>
+        <!--Map Links -->
+        <script src="assets/javascript/jquery.vmap.js"></script>
+        <script src="assets/javascript/jquery.vmap.usa.js"></script>
+
+        <!--App.js-->
+        <script type="text/javascript" src="assets/javascript/app.js"></script>
 </body>
 
 </html>

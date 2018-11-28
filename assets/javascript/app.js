@@ -249,10 +249,16 @@ jQuery(document).ready(function () {
             url: queryURL,
             method: "GET"
         }).then(function (response) {
+            console.log(response);
             let recipe = response.hits[0].recipe;
             label = recipe.label;
             let categories = recipe.healthLabels;
             let ingredients = recipe.ingredientLines;
+            let calories = recipe.calories;
+            let daily = recipe.totalDaily;
+            let nutrients = recipe.totalNutrients;
+            
+
 
             $("#recipeIns h3").text(label);
             $("#recipeIns img").attr({
@@ -260,7 +266,15 @@ jQuery(document).ready(function () {
                 "src": recipe.image
             });
             $("#servings").text(recipe.yield);
-
+           
+            //Nutritional Value Information
+            $("#calories").text(parseInt(recipe.calories));
+            $("#fat").text(parseInt(daily.FAT.quantity));
+            $("#sodium").text(parseInt(daily.NA.quantity));
+            $("#sugar").text(parseInt(nutrients.SUGAR.quantity));
+            $("#protein").text(parseInt(nutrients.PROCNT.quantity));
+            
+           
             for (var j = 0; j < ingredients.length; j++) {
                 let ing = $("<p>").text(ingredients[j]);
 
