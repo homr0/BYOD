@@ -23,11 +23,11 @@
     </nav>
 
     <!-- Splash page contents-->
-    <main id="splash-page" class="position-relative">
-        <div class="row position-absolute w-100 text-center mx-auto">
+    <main class="position-relative">
+        <div id="splash-page" class="row position-absolute w-100 text-center mx-auto">
             <div class="col-1 col-lg-3"></div>
 
-            <div class="col p-2" id="splash-box">
+            <div class="col p-2 m-auto" id="splash-box">
                 <h1 id="splash-title" class="animated zoomInDown delay-1s">Bring Your Own Diet</h1>
 
                 <p id="splash-subtitle" class="animated fadeInLeft">Recipe Inspirations for All Types of Food Lovers</p>
@@ -38,6 +38,26 @@
             </div>
 
             <div class="col-1 col-lg-3"></div>
+        </div>
+
+        <div class="row position-absolute w-100 p-3" id="favorites-page">
+            <div class="col-9">
+                <h2 class="text-center">Favorite Recipes</h2>
+
+                <div class="row p-2" id="favorite-recipes">
+                    <p class="text-center">No favorite recipes yet</p>
+                </div>
+            </div>
+
+            <div class="col-3">
+                <h2 class="text-center">Favorite Places by State</h2>
+
+                <div class="accordion" id="favorite-places">
+                    <div class="card">
+                        <div class="card-header" id="region-none">No favorite places yet</div>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <!-- Firebase UI for sign-in -->

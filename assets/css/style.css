@@ -5,7 +5,13 @@ body {
     font-family: "Roboto", Arial, Helvetica, sans-serif;
 }
 
-.navbar {
+h1, h2, #splash-subtitle {
+    font-family: "Roboto Slab", Georgia, 'Times New Roman', Times, serif;
+    text-transform: capitalize;
+}
+
+nav {
+    max-height: 6rem;
     z-index: 9999;
 }
 
@@ -40,18 +46,18 @@ body {
     background-image: url('../images/dinner.jpg');
 }
 
-#splash-page .row {
-    top: calc(50vh - 8rem);
-}
-
 #splash-page #splash-title {
     font-family: "Kaushan Script", cursive;
     font-size: 300%;
 }
 
 #splash-page #splash-subtitle {
-    font-family: "Roboto Slab", Georgia, 'Times New Roman', Times, serif;
     font-size: 150%;
+    text-transform: none;
+}
+
+#favorites-page {
+    top: calc(100vh - 6rem);
 }
 
 .jumbotron {
