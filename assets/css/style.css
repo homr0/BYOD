@@ -100,6 +100,24 @@ nav {
     cursor: pointer;
 }
 
+.modal-dialog .restImg {
+    max-width: 20%;
+    cursor: pointer;
+}
+
+.searchImg img {
+    max-width: 100%;
+}
+
+.modal-dialog .searchImg {
+    max-width: 20%;
+    cursor: pointer;
+}
+
+.restImg img {
+    max-width: 100%;
+}
+
 #recipeSpace {
     display: none;
 }
@@ -125,6 +143,7 @@ nav {
     width: 125px;
     height: 60px;
 }
+
 
 #firebaseui-auth-container {
     top: calc(6rem + 10vh);
