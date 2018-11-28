@@ -11,6 +11,9 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootswatch/4.1.3/lux/bootstrap.min.css">
     <!-- Firebase UI -->
     <link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/3.1.1/firebaseui.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU"
+        crossorigin="anonymous">
     <!--CSS-->
     <link rel="stylesheet" type="text/css" href="assets/css/style.css">
 </head>
@@ -33,26 +36,86 @@
                 <p id="splash-subtitle" class="animated fadeInLeft">Recipe Inspirations for All Types of Food Lovers</p>
 
                 <h2 id="splash-time" class="animated fadeInRight"></h2>
-                <a href="map.html"><button type="button" class="btn btn-outline-dark">Map</button></a>
-                <a href="search.html"><button type="button" class="btn btn-outline-dark">Search</button></a>
+                <a href="map.html" class="btn btn-outline-dark">Map</a>
+                <a href="#favorites-page" class="btn btn-outline-dark" id="favJump">Favorites</a>
             </div>
 
             <div class="col-1 col-lg-3"></div>
         </div>
 
         <div class="row position-absolute w-100 p-3" id="favorites-page">
-            <div class="col-9">
+            <div class="col-12 col-md-9">
                 <h2 class="text-center">Favorite Recipes</h2>
                 
                 <p class="text-center" id="favorites-none">No favorite recipes yet</p>
                 
                 <div class="row p-2" id="favorite-recipes"></div>
+
+                <div class="w-100" id="recipeSpace">
+                    <div class="card">
+                        <div class="card-header">
+                            <i class="fas fa-info-circle"></i> Recipe Details
+                        </div>
+                
+                        <div class="card-body" id="recipeIns">
+                            <h3>Recipe Name</h3>
+            
+                            <hr class="my-4">
+            
+                            <img alt="recipe picture" src="assets/images/basic-ingredients.jpg">
+            
+                            <p>Servings: <span id="servings">0</span></p>
+            
+                            <div id="nutrition">
+                                <div class="card">
+                                    <div class="card-header" id="nutritionalValueHeading">
+                                        Nutritional Value
+                                    </div>
+                                    <div id="nutritionalValue">
+                                        <div class="card-body">
+                                            <ul>
+                                                <li>Calories: <span id='calories'>0</span></li>
+                                                <li>Fat: <span id='fat'>0</span>g</li>
+                                                <li>Sodium: <span id='sodium'>0</span>mg</li>
+                                                <li>Sugar: <span id='sugar'>0</span>g</li>
+                                                <li>Protein: <span id='protein'>0</span>g</li>
+                                            </ul>
+            
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+            
+                            <div class="ingredients">
+                                <div class="card">
+                                    <div class="card-header" id="ingredientsHeading">                           
+                                        <p>Ingredients:</p>
+                                    </div>
+                                    
+                                    <div class="card-body">
+                                        <div id="recipeIngredients"></div>
+                                    </div>
+                                </div>
+                            </div>  
+                                
+                            <p id="recipeCtg">This recipe is <span id="categories"></span>.</p>
+            
+                            <p>For more information <a href="#"><i class="fas fa-external-link-alt"></i></a></p>
+            
+                            <button class="btn" id="recipeRemove">
+                                <i class="fas fa-star"></i> Remove from Favorite Recipes
+                            </button>
+            
+                            <button type="button" class="btn btn-outline-dark" id="closeRecipe">Close</button>
+                        </div>
+                    </div>
+                </div>
             </div>
 
-            <div class="col-3">
-                <h2 class="text-center">Favorite Places by State</h2>
+            <div class="col-12 col-md-3">
+                <h2 class="text-center">Favorite Places</h2>
 
-                <p id="region-none">No favorite places yet.</p>
+                <p id="places-none">No favorite places yet.</p>
                 <ul id="favorite-places"></ul>
                 <!-- <div class="accordion" id="favorite-places">
                     <div class="card">
@@ -63,7 +126,7 @@
         </div>
 
         <!-- Firebase UI for sign-in -->
-        <div id="firebaseui-auth-container" class="modal" role="login"></div>
+        <div id="firebaseui-auth-container" class="modal" role="dialog"></div>
     </main>
 
     <!-- jQuery library -->

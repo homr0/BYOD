@@ -121,11 +121,20 @@ jQuery(document).ready(function () {
                     database.ref("users").child(uid).set({
                         name: uname
                     });
+                } else {
+                    // Sets up the favorite recipes and favorite places objects.
+                    database.ref("users/" + uid + "/favorites")
                 }
             });
 
             // Show the favorites page.
-            $("#favorites-page").removeClass("d-none");
+            if ($("#favorites-page").length) {
+                $("#favorites-page").removeClass("d-none");
+
+                // Renders the favorites page
+                renderFavorites();
+            }
+            
         } else {
             // User is signed out.
             // Hides and cleans the favorites page.
@@ -139,16 +148,48 @@ jQuery(document).ready(function () {
         }
     });
 
-    // At the initial load and subsequent value changes, keep track of the favorited recipes and places.
-    database.ref("users/" + uid).on("child_added", function(user) {
-        $.each(user.val().favorites, function(name, info) {
-            if(info.type == "recipe") {
-                favRecipes[name] = info;
-            } else if(info.type == "place") {
-                favPlaces[name] = info;
+    // Renders favorite recipes and places.
+    function renderFavorites() {
+        $("#favorite-recipes, #favorite-places").empty();
+        
+        database.ref("users/" + uid + "/favorites").once("value").then(function(fave) {
+            $.each(fave.val(), function(key, info) {
+                // Adds recipe to the favorites area.
+                if(info.type == "recipe") {
+                    favRecipes[key] = info;
+
+                    var recipeImage = $("<img>").attr({
+                        "alt": info.name,
+                        "src": info.image
+                    });
+
+                    var recipe = $("<button>").addClass("col-3 recipeImg").attr({
+                        "data-dish": info.name,
+                        "data-url": info.url
+                    });
+
+                    $(recipe).append(recipeImage);
+                    $("#favorite-recipes").append(recipe);
+                } else if(info.type == "restaurant") {
+                    // Adds place to favorites list.
+                    favPlaces[key] = info;
+
+                    var place = $("<a>").text(info.name).attr("href", info.url);
+                    place = $("<li>").append(place);
+                    $("#favorite-places").append(place);
+                }
+            });
+
+            $("#favorites-none, #places-none").show();
+            if(Object.keys(favRecipes).length) {
+                $("#favorites-none").hide();
+            }
+
+            if(Object.keys(favPlaces).length) {
+                $("#places-none").hide();
             }
         });
-    });
+    }
 
     // jQuery Vector Map
 
@@ -324,10 +365,9 @@ jQuery(document).ready(function () {
 
             $("#recipeIns a").attr("href", link);
 
-            let recip
-
             // Checks the user's favorite recipes to see if the recipe is on there.
-            // Creates a 
+            $("#recipeSpace #recipeAdd").show();
+            $("#recipeSpace #recipeRemove").hide();
             $.each(favRecipes, function(name, info) {
                 // Checks if the uri is the same.
                 if(info.uri == recipe.uri) {
@@ -340,7 +380,11 @@ jQuery(document).ready(function () {
             let uri = recipe.uri;
             let recipeId = uri.substring(uri.indexOf("recipe_"));
             $("#recipeAdd, #recipeRemove").attr("data-id", recipeId);
-            $("#recipeAdd").attr("data-recipe", JSON.stringify(recipe));
+            $("#recipeAdd").attr({
+                "data-uri": uri,
+                "data-ingr": JSON.stringify(ingredients),
+                "data-ctg": JSON.stringify(categories)
+            });
         });
 
     });
@@ -353,8 +397,8 @@ jQuery(document).ready(function () {
     */    
    $(document).on("click","#closeRecipe",function(){
         // $("#recipeSpace").empty();
-        $("#recipeAdd").removeAttr("data-recipe");
-        $("#recipeAdd, #recipeRemove").remove("data-id");
+        $("#recipeAdd").removeAttr("data-uri data-ingr data-ctg");
+        $("#recipeAdd, #recipeRemove").removeAttr("data-id");
         $("#recipeSpace").hide();
    });
 
@@ -362,17 +406,15 @@ jQuery(document).ready(function () {
    $("#recipeAdd").on("click", function() {
         $("#recipeAdd").hide();
         $("#recipeRemove").show();
-        
-        let recipe = JSON.parse($("#recipeAdd").attr("data-recipe"));
         let recipeId = $(this).attr("data-id");
 
         // Adds it to the local array
         favRecipes[$(this).attr("data-id")] = {
-            uri: recipe.uri,
+            uri: $(this).attr("data-uri"),
             name: $("#recipeIns h3").text(),
             url: $("#recipeIns a").attr("href"),
             image: $("#recipeIns img").attr("src"),
-            ingredients: recipe.ingredientLines,
+            ingredients: $(this).attr("data-ingr"),
             servings: $("#servings").text(),
             calories: $("#calories").text(),
             fat: $("#fat").text(),
@@ -398,5 +440,10 @@ jQuery(document).ready(function () {
 
         // Removes the recipe from the Firebase favorites.
         database.ref("users/" + uid + "/favorites/" + recipeId).remove();
+
+        if($("#favorites-page").length) {
+            $("#closeRecipe").trigger("click");
+            renderFavorites();
+        }
    });
 });

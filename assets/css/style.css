@@ -93,11 +93,11 @@ nav {
 
 .modal-dialog .recipeImg {
     max-width: 20%;
-    cursor: pointer;
 }
 
 .recipeImg img {
     max-width: 100%;
+    cursor: pointer;
 }
 
 #recipeSpace {
