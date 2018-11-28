@@ -26,49 +26,49 @@ jQuery(document).ready(function () {
             states: [
                 "CT", "ME", "MA", "NH", "RI", "VT"
             ],
-            color: "#00ffff"
+            color: "#00ff00"
         },
 
         "Mid-Atlantic": {
             states: [
                 "NJ", "NY", "PA", "DE", "DC", "MD"
             ],
-            color: "#ff00ff"
+            color: "#00ff00"
         },
 
         "Great Lakes": {
             states: [
-                "IL", "IN", "MI", "MN", "OH", "WI"
+                "IL", "IN", "MI",  "OH", "WI"
             ],
-            color: "#ffff00"
+            color: "#00ff00"
         },
 
         "Midwest": {
             states: [
-                "IA", "KS", "ND", "SD", "MO", "NE"
+                "IA", "KS", "ND", "SD", "MO", "NE","TX","LA","OK","AR","MN"
             ],
             color: "#ff0000"
         },
 
         "South": {
             states: [
-                "FL", "GA", "NC", "SC", "VA", "WV", "AL", "KY", "MS", "TN", "AR", "LA", "OK", "TX"
+                "FL", "GA", "NC", "SC", "VA", "WV", "AL", "KY", "MS", "TN", 
             ],
             color: "#00ff00"
         },
 
         "Mountain": {
             states: [
-                "AZ", "CO", "ID", "MT", "NM", "NV", "UT", "WY"
+                "AZ", "CO", "ID", "MT", "NM", "UT", "WY"
             ],
             color: "#0000ff"
         },
 
         "Pacific": {
             states: [
-                "AK", "CA", "HI", "OR", "WA"
+                "AK", "CA", "HI", "OR", "WA","NV"
             ],
-            color: "#999999"
+            color: "#FFFF00"
         }
     };
 
