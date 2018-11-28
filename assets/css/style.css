@@ -111,6 +111,10 @@ nav {
     height: 60px;
 }
 
+#firebaseui-auth-container {
+    top: calc(6rem + 10vh);
+}
+
 /* Media query for styles on mobile. */
 @media only screen and (max-width: 576px) {
     #splash-page .row {

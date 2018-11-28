@@ -88,13 +88,13 @@ jQuery(document).ready(function () {
         callbacks: {
             signInSuccessWithAuthResult: function(authResult, redirectURL) {
                 // User successfully signed in.
-                $("#firebaseui-auth-container").hide();
+                $("#firebaseui-auth-container").modal('hide');
                 return false;
             },
 
             uiShown: function() {
                 // The widget is rendered.
-                $("#firebaseui-auth-container").hide();
+                $("#firebaseui-auth-container").modal('show');
             }
         },
         signInFlow: 'default',
@@ -110,8 +110,16 @@ jQuery(document).ready(function () {
         if(user) {
             // User is signed in.
             console.log(user.displayName + " has logged in");
+
+            $("#firebaseui-auth-container").modal('hide');
+
+            // Show the favorites page.
+            $("#favorites-page").removeClass("d-none");
         } else {
             // User is signed out.
+            // Hide the favorites page.
+            $("#favorites-page").addClass("d-none");
+    
             // The start method will wait until the DOM is loaded.
             ui.start("#firebaseui-auth-container", uiConfig);
         }
