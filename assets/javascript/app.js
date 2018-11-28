@@ -138,6 +138,8 @@ jQuery(document).ready(function () {
             // Hides and cleans the favorites page.
             $("#favorites-page").addClass("d-none");
             $("#favorite-recipes, #favorite-places").empty();
+            favRecipes = {};
+            favPlaces = {};
     
             // The start method will wait until the DOM is loaded.
             ui.start("#firebaseui-auth-container", uiConfig);
