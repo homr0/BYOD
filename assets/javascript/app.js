@@ -13,13 +13,13 @@ jQuery(document).ready(function () {
     // Sets up global variables.
     // Assigns reference to the database.
     var database = firebase.database();
-    
+
     // Diet filters
     var diets = [
         "High Fiber", "High Protein", "Low Carb", "Low Fat",
         "Low Sodium", "Vegan", "Vegetarian", "Gluten free"
     ];
-    
+
     // Regions with states and colors.
     var regions = {
         "New England": {
@@ -80,8 +80,8 @@ jQuery(document).ready(function () {
 
     // Sets up region colors.
     var regionColors = {};
-    $.each(regions, function(key, region) {
-        $(region.states).each(function(index, state) {
+    $.each(regions, function (key, region) {
+        $(region.states).each(function (index, state) {
             regionColors[state.toLowerCase()] = region.color;
         });
     });
@@ -92,13 +92,13 @@ jQuery(document).ready(function () {
     // Handles user authentication
     var uiConfig = {
         callbacks: {
-            signInSuccessWithAuthResult: function(authResult, redirectURL) {
+            signInSuccessWithAuthResult: function (authResult, redirectURL) {
                 // User successfully signed in.
                 $("#firebaseui-auth-container").modal('hide');
                 return false;
             },
 
-            uiShown: function() {
+            uiShown: function () {
                 // The widget is rendered.
                 $("#firebaseui-auth-container").modal('show');
             }
@@ -112,8 +112,8 @@ jQuery(document).ready(function () {
     };
 
     // Watches for user status.
-    firebase.auth().onAuthStateChanged(function(user) {
-        if(user) {
+    firebase.auth().onAuthStateChanged(function (user) {
+        if (user) {
             // User is signed in.
             console.log(user.displayName + " has logged in");
             $("#firebaseui-auth-container").modal('hide');
@@ -176,41 +176,14 @@ jQuery(document).ready(function () {
         onRegionClick: function (event, code, region) {
             event.preventDefault();
 
-            //Build API Call URL
-            queryURL = "https://api.edamam.com/search?q=" + region + "&app_id=c16ec41a&app_key=8a6a3fa7dcc42aa6406a3ea1f8367e34&from=0&to=10";
-
-            //Change the Title of Modal to the Name of State Clicked On & Empty Modal Body
             $("#modalTitle").text(region);
             $("#modalBody").empty();
 
-            //Call API
-            $.ajax({
-                url: queryURL,
-                method: "GET"
-            }).then(function (response) {
-
-                for (var i = 0; i < response.hits.length; i++) {
-                    label = response.hits[i].recipe.label;
-                    img = response.hits[i].recipe.image;
-                    orgURL = response.hits[i].recipe.url;
-
-                    var recipeImg = $("<img>").attr({
-                        "alt": label,
-                        "src": img
-                    });
-
-                    var recipeButton = $("<button>").addClass("recipeImg").attr({
-                        "type": "button",
-                        "data-dish": label,
-                        "data-url": orgURL,
-                        "data-dismiss": "modal"
-                    }).append(recipeImg);
-
-                    $("#modalBody").append(recipeButton);
-                }
-            });
+            $("#modalBody").append('<button type="button" data-region="' + region + '" class="btn btn-outline-warning btn-lg center" id="cookBtn">Cook It</button>');
+            $("#modalBody").append('<button type="button" data-region="' + region + '" class="btn btn-outline-warning btn-lg center" id="restBtn">Restaurants</button>');
 
             $("#modalCenter").modal("show");
+
         }
     });
 
@@ -240,7 +213,7 @@ jQuery(document).ready(function () {
                     mealTime = "It's lunch time!";
 
                     $("#splash-page").addClass("lunch").removeClass("breakfast dinner");
-                    
+
                     break;
                 case dinnerTime:
                     mealTime = "It's dinner time!";
@@ -281,7 +254,7 @@ jQuery(document).ready(function () {
         addCard();
 
         var dish = $(this).attr("data-dish");
-        var link =$(this).attr("data-url");
+        var link = $(this).attr("data-url");
 
         queryURL = "https://api.edamam.com/search?q=" + dish + "&app_id=c16ec41a&app_key=8a6a3fa7dcc42aa6406a3ea1f8367e34&from=0&to=1";
 
@@ -289,7 +262,7 @@ jQuery(document).ready(function () {
             url: queryURL,
             method: "GET"
         }).then(function (response) {
-            console.log(response);
+            //console.log(response);
             let recipe = response.hits[0].recipe;
             label = recipe.label;
             let categories = recipe.healthLabels;
@@ -297,7 +270,7 @@ jQuery(document).ready(function () {
             let calories = recipe.calories;
             let daily = recipe.totalDaily;
             let nutrients = recipe.totalNutrients;
-            
+
 
 
             $("#recipeIns h3").text(label);
@@ -306,22 +279,22 @@ jQuery(document).ready(function () {
                 "src": recipe.image
             });
             $("#servings").text(recipe.yield);
-           
+
             //Nutritional Value Information
             $("#calories").text(parseInt(recipe.calories));
             $("#fat").text(parseInt(daily.FAT.quantity));
             $("#sodium").text(parseInt(daily.NA.quantity));
             $("#sugar").text(parseInt(nutrients.SUGAR.quantity));
             $("#protein").text(parseInt(nutrients.PROCNT.quantity));
-            
-           
+
+
             for (var j = 0; j < ingredients.length; j++) {
                 let ing = $("<p>").text(ingredients[j]);
 
                 $("#recipeIngredients").append(ing);
             }
 
-            if(categories.length > 0) {
+            if (categories.length > 0) {
                 $("#recipeCtg").show();
                 $("#categories").text(categories.join(", "));
             } else {
@@ -339,10 +312,360 @@ jQuery(document).ready(function () {
     Listener for Close Button Clicked in Recipe Space
     - Will Remove Card if User is Done Looking at Details
     =======================================================
-    */    
-   $(document).on("click","#closeRecipe",function(){
-        // $("#recipeSpace").empty();
+    */
+    $(document).on("click", "#closeRecipe", function () {
         $("#recipeSpace").hide();
-   });
+    });
+
+    /*
+     =======================================================
+     Listener for Cook Button Clicked in Modal Space
+     - Will Call Recipe API
+     =======================================================
+     */
+    $(document).on("click", "#cookBtn", function () {
+        //Set Region From Button Attribute
+        let reg = $(this).attr("data-region");
+
+        //Build API Call URL
+        queryURL = "https://api.edamam.com/search?q=" + reg + "&app_id=c16ec41a&app_key=8a6a3fa7dcc42aa6406a3ea1f8367e34&from=0&to=10";
+
+        //Change the Title of Modal to the Name of State Clicked On & Empty Modal Body
+        $("#modalTitle").text(reg);
+        $("#modalBody").empty();
+
+        //Call API
+        $.ajax({
+            url: queryURL,
+            method: "GET"
+        }).then(function (response) {
+
+            for (var i = 0; i < response.hits.length; i++) {
+                label = response.hits[i].recipe.label;
+                img = response.hits[i].recipe.image;
+                orgURL = response.hits[i].recipe.url;
+
+                var recipeImg = $("<img>").attr({
+                    "alt": label,
+                    "src": img
+                });
+
+                var recipeButton = $("<button>").addClass("recipeImg").attr({
+                    "type": "button",
+                    "data-dish": label,
+                    "data-url": orgURL,
+                    "data-dismiss": "modal"
+                }).append(recipeImg);
+
+                $("#modalBody").append(recipeButton);
+            }
+        });
+    });
+
+    /*
+     =======================================================
+     Listener for Restaurant Button Clicked in Modal Space
+     - Will Call Restaurant API
+     =======================================================
+     */
+    $(document).on("click", "#restBtn", function () {
+        //Set Region From Button Attribute
+        let reg = $(this).attr("data-region");
+        let sCode = getStateCode(reg);
+
+        //Build API Call URL
+        let qURL = "https://opentable.herokuapp.com/api/restaurants?state=" + sCode;
+
+        //Change the Title of Modal to the Name of State Clicked On & Empty Modal Body
+        $("#modalTitle").text(reg);
+        $("#modalBody").empty();
+
+        $.ajax({
+            url: qURL,
+            method: "GET",
+        }).then(function (response) {
+            console.log(response);
+            for (var i = 0; i < response.restaurants.length; i++) {
+                let name = response.restaurants[i].name;      //Restaurant Name
+                let pic = response.restaurants[i].image_url;  //Restaurant Image
+                let pNum = response.restaurants[i].phone;     //Restaurant Phone Number
+                let rID = response.restaurants[i].id;         //Restaurant ID From API
+                let city = response.restaurants[i].city;      //Restaurant's City
+                let state = response.restaurants[i].area;     //Restaurant's State
+                let address = response.restaurants[i].address + " " + city + ", " + state;    //Full Address
+                let price = response.restaurants[i].price;
+
+                var restImg = $("<img>").attr({
+                    "alt": name,
+                    "src": pic,
+                });
+
+                var restBtn = $("<button>").addClass("restImg").attr({
+                    "type": "button",
+                    "data-number": pNum,
+                    "data-id": rID,
+                    "data-price": price,
+                    "data-address": address,
+                    "data-img": pic,
+                    "data-name": name
+                }).append(restImg);
+
+                $("#modalBody").append(restBtn);
+            }
+        });
+
+
+    });
+
+    /*
+     =======================================================
+     Function That Converts State to State Code
+     - Needed for Restaurant API
+     - Takes in Region/State
+     - Returns Equivalent State Code
+     =======================================================
+     */
+
+    function getStateCode(region) {
+        var states = [
+            ['Alabama', 'AL'],
+            ['Alaska', 'AK'],
+            ['Arizona', 'AZ'],
+            ['Arkansas', 'AR'],
+            ['California', 'CA'],
+            ['Colorado', 'CO'],
+            ['Connecticut', 'CT'],
+            ['Delaware', 'DE'],
+            ['Florida', 'FL'],
+            ['Georgia', 'GA'],
+            ['Hawaii', 'HI'],
+            ['Idaho', 'ID'],
+            ['Illinois', 'IL'],
+            ['Indiana', 'IN'],
+            ['Iowa', 'IA'],
+            ['Kansas', 'KS'],
+            ['Kentucky', 'KY'],
+            ['Louisiana', 'LA'],
+            ['Maine', 'ME'],
+            ['Maryland', 'MD'],
+            ['Massachusetts', 'MA'],
+            ['Michigan', 'MI'],
+            ['Minnesota', 'MN'],
+            ['Mississippi', 'MS'],
+            ['Missouri', 'MO'],
+            ['Montana', 'MT'],
+            ['Nebraska', 'NE'],
+            ['Nevada', 'NV'],
+            ['New Hampshire', 'NH'],
+            ['New Jersey', 'NJ'],
+            ['New Mexico', 'NM'],
+            ['New York', 'NY'],
+            ['North Carolina', 'NC'],
+            ['North Dakota', 'ND'],
+            ['Ohio', 'OH'],
+            ['Oklahoma', 'OK'],
+            ['Oregon', 'OR'],
+            ['Pennsylvania', 'PA'],
+            ['Rhode Island', 'RI'],
+            ['South Carolina', 'SC'],
+            ['South Dakota', 'SD'],
+            ['Tennessee', 'TN'],
+            ['Texas', 'TX'],
+            ['Utah', 'UT'],
+            ['Vermont', 'VT'],
+            ['Virginia', 'VA'],
+            ['Washington', 'WA'],
+            ['West Virginia', 'WV'],
+            ['Wisconsin', 'WI'],
+            ['Wyoming', 'WY'],
+        ];
+
+        for (i = 0; i < states.length; i++) {
+            if (states[i][0] === region) {
+                return (states[i][1]);
+            }
+        }
+    }
+
+    /*
+    =======================================================
+    Listener for Image of Restaurant Clicked
+    - Brings up Card for Recipe Details to be Shown
+    =======================================================
+    */
+    $(document).on("click", ".restImg", function () {
+        //Extract Restaurant Details Back
+        let n = $(this).attr("data-name");
+        let i = $(this).attr("data-img");
+        let num = $(this).attr("data-number");
+        let range = $(this).attr("data-price");
+        let add = $(this).attr("data-address");
+
+        $("#modalTitle").text(n);
+        $("#modalBody").empty();
+
+        var restImg = $("<img>").attr({
+            "alt": n,
+            "src": i
+        });
+
+        $("#modalBody").append(restImg);
+
+        $("#modalBody").append("<p><strong>Address: </strong> " + add + "</p>");
+        $("#modalBody").append("<p><strong>Phone Number: </strong>" + num + "</p>");
+        $("#modalBody").append("<p><strong>Price Range: </strong> " + range + "</p>");
+
+        $("#modalBody").append("<p>*Price Range is 1-4, 1 being lowest and 4 being the highest</p>");
+    });
+
+    /*
+    =======================================================
+    Listener for Search Button Clicked 
+    - Fills Modal with Recipes
+    =======================================================
+    */
+    $("#searchBtn").on("click", function (event) {
+        event.preventDefault();
+        $("#searchBody").empty();
+
+        var ing = $("#searchIng").val().trim();
+        var sNum = $("#recQ").val();
+        var hRest = $("#healthRest").val();
+        var searchURL;
+
+        switch (hRest) {
+            case "Choose": {
+                searchURL = "https://api.edamam.com/search?q=" + ing + "&app_id=c16ec41a&app_key=8a6a3fa7dcc42aa6406a3ea1f8367e34&from=0&to=" + sNum;
+                break;
+            }
+            case "Vegan": {
+                searchURL = "https://api.edamam.com/search?q=" + ing + "&app_id=c16ec41a&app_key=8a6a3fa7dcc42aa6406a3ea1f8367e34&from=0&to=" + sNum + "&health=vegan";
+                break;
+            }
+            case "Vegetarian": {
+                searchURL = "https://api.edamam.com/search?q=" + ing + "&app_id=c16ec41a&app_key=8a6a3fa7dcc42aa6406a3ea1f8367e34&from=0&to=" + sNum + "&health=vegetarian";
+                break;
+            }
+            case "Gluten Free": {
+                searchURL = "https://api.edamam.com/search?q=" + ing + "&app_id=c16ec41a&app_key=8a6a3fa7dcc42aa6406a3ea1f8367e34&from=0&to=" + sNum + "&health=gluten-free";
+                break;
+            }
+            case "Dairy Free": {
+                searchURL = "https://api.edamam.com/search?q=" + ing + "&app_id=c16ec41a&app_key=8a6a3fa7dcc42aa6406a3ea1f8367e34&from=0&to=" + sNum + "&health=dairy-free"
+                break;
+            }
+            case "Peanut Free": {
+                searchURL = "https://api.edamam.com/search?q=" + ing + "&app_id=c16ec41a&app_key=8a6a3fa7dcc42aa6406a3ea1f8367e34&from=0&to=" + sNum + "&health=peanut-free";
+                break;
+            }
+            case "Sugar Free": {
+                searchURL = "https://api.edamam.com/search?q=" + ing + "&app_id=c16ec41a&app_key=8a6a3fa7dcc42aa6406a3ea1f8367e34&from=0&to=" + sNum + "&health=low-sugar";
+                break;
+            }
+            case "Red Meat-Free": {
+                searchURL = "https://api.edamam.com/search?q=" + ing + "&app_id=c16ec41a&app_key=8a6a3fa7dcc42aa6406a3ea1f8367e34&from=0&to=" + sNum + "&health=red-meat-free";
+                break;
+            }
+        }
+
+        //API Call With AJAX
+        $.ajax({
+            url: searchURL,
+            method: "GET"
+        }).then(function (response) {
+            console.log(response);
+            if (response.hits.length <= 0) {
+                $("#searchBody").append("<p>Sorry, no results found. Try Again");
+            }
+            else {
+                for (var i = 0; i < response.hits.length; i++) {
+                    label = response.hits[i].recipe.label;
+                    img = response.hits[i].recipe.image;
+                    orgURL = response.hits[i].recipe.url;
+
+                    var searchImg = $("<img>").attr({
+                        "alt": label,
+                        "src": img
+                    });
+
+                    var resultBtn = $("<button>").addClass("searchImg").attr({
+                        "type": "button",
+                        "data-dish": label,
+                        "data-url": orgURL,
+                        "data-dismiss": "modal"
+                    }).append(searchImg);
+
+                    $("#searchBody").append(resultBtn);
+                }
+            }
+        });
+
+        $("#searchModalCenter").modal("show");
+
+
+    });
+
+    /*
+    =======================================================
+    Listener for Search Result Image is Clicked 
+    - List Details of Recipe 
+    =======================================================
+    */
+    $(document).on("click", ".searchImg", function () {
+        addCard();
+
+        var dish = $(this).attr("data-dish");
+        var link = $(this).attr("data-url");
+
+        queryURL = "https://api.edamam.com/search?q=" + dish + "&app_id=c16ec41a&app_key=8a6a3fa7dcc42aa6406a3ea1f8367e34&from=0&to=1";
+
+        $.ajax({
+            url: queryURL,
+            method: "GET"
+        }).then(function (response) {
+            //console.log(response);
+            let recipe = response.hits[0].recipe;
+            label = recipe.label;
+            let categories = recipe.healthLabels;
+            let ingredients = recipe.ingredientLines;
+            let calories = recipe.calories;
+            let daily = recipe.totalDaily;
+            let nutrients = recipe.totalNutrients;
+
+
+
+            $("#recipeIns h3").text(label);
+            $("#recipeIns img").attr({
+                "alt": label,
+                "src": recipe.image
+            });
+            $("#servings").text(recipe.yield);
+
+            //Nutritional Value Information
+            $("#calories").text(parseInt(recipe.calories));
+            $("#fat").text(parseInt(daily.FAT.quantity));
+            $("#sodium").text(parseInt(daily.NA.quantity));
+            $("#sugar").text(parseInt(nutrients.SUGAR.quantity));
+            $("#protein").text(parseInt(nutrients.PROCNT.quantity));
+
+
+            for (var j = 0; j < ingredients.length; j++) {
+                let ing = $("<p>").text(ingredients[j]);
+
+                $("#recipeIngredients").append(ing);
+            }
+
+            if (categories.length > 0) {
+                $("#recipeCtg").show();
+                $("#categories").text(categories.join(", "));
+            } else {
+                $("#recipeCtg").hide();
+                $("#categories").text("");
+            }
+
+            $("#recipeIns a").attr("href", link);
+        });
+    });
+
 
 });
