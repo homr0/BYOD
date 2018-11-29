@@ -30,10 +30,10 @@
     </nav>
 
     <!-- Firebase UI for sign-in -->
-    <div id="firebaseui-auth-container" class="modal" role="login"></div>
+    <div id="firebaseui-auth-container" class="modal" role="dialog"></div>
 
     <!-- Modal -->
-    <div class="modal fade" id="modalCenter" tabindex="-1" role="dialog" aria-labelledby="modalCenterTitle" aria-hidden="true">
+    <div class="modal fade" id="modalCenter" tabindex="-1" role="dialog" aria-labelledby="modalTitle" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -59,7 +59,7 @@
         <div class="jumbotron jumbotron-fluid">
             <!--jumbotron-->
             <div id="jumbotron" class="text-center text-primary mt-0">
-                <h1 class="animated flipInY" style="color: #ffde00"> Get Inspired</h1>
+                <h1 class="animated flipInY">Get Inspired</h1>
             </div>
             <div class="container text-center" id="map">
                 <div id="vmap"></div>
@@ -111,39 +111,47 @@
                 <div class="ingredients">
                     <div class="card">
                         <div class="card-header" id="ingredientsHeading">                           
-                                <p>Ingredients:</p>
-                                </div>
+                            <p>Ingredients:</p>
+                        </div>
                                
-                                <div id="recipeIngredients"></div>
-                            </div>
-                       
+                        <div id="recipeIngredients"></div>
+                    </div>
+                </div>
                     
                 <p id="recipeCtg">This recipe is <span id="categories"></span>.</p>
 
                 <p>For more information <a href="#"><i class="fas fa-external-link-alt"></i></a></p>
 
+                <button class="btn" id="recipeAdd">
+                    <i class="far fa-star"></i> Add to Favorite Recipes
+                </button>
+
+                <button class="btn" id="recipeRemove">
+                    <i class="fas fa-star"></i> Remove from Favorite Recipes
+                </button>
+
                 <button type="button" class="btn btn-outline-dark" id="closeRecipe">Close</button>
             </div>
+        </div>
+    </div>
 
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <!-- Popper.js Link Needed for Bootstrap -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+        crossorigin="anonymous"></script>
+    <!-- Bootstrap Js Link Needed -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
+        crossorigin="anonymous"></script>
+    <!-- Firebase -->
+    <script src="https://www.gstatic.com/firebasejs/5.5.8/firebase.js"></script>
+    <script src="https://cdn.firebase.com/libs/firebaseui/3.1.1/firebaseui.js"></script>
+    <!--Map Links -->
+    <script src="assets/javascript/jquery.vmap.js"></script>
+    <script src="assets/javascript/jquery.vmap.usa.js"></script>
 
-
-                <!-- jQuery library -->
-                <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-                <!-- Popper.js Link Needed for Bootstrap -->
-                <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
-                    crossorigin="anonymous"></script>
-                <!-- Bootstrap Js Link Needed -->
-                <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
-                    crossorigin="anonymous"></script>
-                <!-- Firebase -->
-                <script src="https://www.gstatic.com/firebasejs/5.5.8/firebase.js"></script>
-                <script src="https://cdn.firebase.com/libs/firebaseui/3.1.1/firebaseui.js"></script>
-                <!--Map Links -->
-                <script src="assets/javascript/jquery.vmap.js"></script>
-                <script src="assets/javascript/jquery.vmap.usa.js"></script>
-
-                <!--App.js-->
-                <script type="text/javascript" src="assets/javascript/app.js"></script>
+    <!--App.js-->
+    <script src="assets/javascript/app.js"></script>
 </body>
 
 </html>

@@ -70,7 +70,7 @@ nav {
 }
 
 .jumbotron h1 {
-    color: rgba(255, 252 , 240, 1);
+    color: rgba(255, 222 , 0, 1);
 }
 
 #regional-page #vmap {
@@ -93,11 +93,11 @@ nav {
 
 .modal-dialog .recipeImg {
     max-width: 20%;
-    cursor: pointer;
 }
 
 .recipeImg img {
     max-width: 100%;
+    cursor: pointer;
 }
 
 .modal-dialog .restImg {
@@ -119,6 +119,19 @@ nav {
 }
 
 #recipeSpace {
+    display: none;
+}
+
+#recipeSpace #recipeAdd, #recipeSpace #recipeRemove {
+    color: rgba(255, 255, 255, 1);
+}
+
+#recipeSpace #recipeAdd {
+    background-color: rgba(31, 31, 255, 0.9);
+}
+
+#recipeSpace #recipeRemove {
+    background-color: rgba(255, 31, 31, 0.9);
     display: none;
 }
 
