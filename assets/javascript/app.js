@@ -296,12 +296,10 @@ jQuery(document).ready(function () {
             url: queryURL,
             method: "GET"
         }).then(function (response) {
-            //console.log(response);
             let recipe = response.hits[0].recipe;
             label = recipe.label;
             let categories = recipe.healthLabels;
             let ingredients = recipe.ingredientLines;
-            let calories = recipe.calories;
             let daily = recipe.totalDaily;
             let nutrients = recipe.totalNutrients;
 
@@ -352,12 +350,9 @@ jQuery(document).ready(function () {
 
             let uri = recipe.uri;
             let recipeId = uri.substring(uri.indexOf("recipe_"));
+
             $("#recipeAdd, #recipeRemove").attr("data-id", recipeId);
-            $("#recipeAdd").attr({
-                "data-uri": uri,
-                "data-ingr": JSON.stringify(ingredients),
-                "data-ctg": JSON.stringify(categories)
-            });
+            $("#recipeAdd").attr("data-uri", uri);
         });
 
     });
@@ -429,8 +424,6 @@ jQuery(document).ready(function () {
         //Set Region From Button Attribute
         let reg = $(this).attr("data-region");
         let sCode = $(this).attr("data-state");
-        // let sCode = getStateCode(reg);
-        console.log(sCode);
 
         //Build API Call URL
         let qURL = "https://opentable.herokuapp.com/api/restaurants?state=" + sCode;
@@ -604,16 +597,8 @@ jQuery(document).ready(function () {
             name: $("#recipeIns h3").text(),
             url: $("#recipeIns a").attr("href"),
             image: $("#recipeIns img").attr("src"),
-            ingredients: $(this).attr("data-ingr"),
-            servings: $("#servings").text(),
-            calories: $("#calories").text(),
-            fat: $("#fat").text(),
-            sodium: $("#sodium").text(),
-            sugar: $("#sugar").text(),
-            protein: $("#protein").text(),
             type: "recipe"
         }
-        console.log(uid);
 
         // Adds it to the Firebase favorites.
         database.ref("users/" + uid + "/favorites").child(recipeId).set(favRecipes[recipeId]);
