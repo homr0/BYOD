@@ -191,11 +191,6 @@ jQuery(document).ready(function () {
         });
     }
 
-    // Checks if a recipe is already favorited.
-    // function recipeFaveCheck() {
-
-    // }
-
     // jQuery Vector Map
 
     var queryURL;
@@ -219,7 +214,7 @@ jQuery(document).ready(function () {
             $("#modalBody").empty();
 
             $("#modalBody").append('<button type="button" data-region="' + region + '" class="btn btn-outline-warning btn-lg center" id="cookBtn">Cook It</button>');
-            $("#modalBody").append('<button type="button" data-region="' + region + '" class="btn btn-outline-warning btn-lg center" id="restBtn">Restaurants</button>');
+            $("#modalBody").append('<button type="button" data-region="' + region + '" data-state="' + code.toUpperCase() + '" class="btn btn-outline-warning btn-lg center" id="restBtn">Restaurants</button>');
 
             $("#modalCenter").modal("show");
 
@@ -433,7 +428,9 @@ jQuery(document).ready(function () {
     $(document).on("click", "#restBtn", function () {
         //Set Region From Button Attribute
         let reg = $(this).attr("data-region");
-        let sCode = getStateCode(reg);
+        let sCode = $(this).attr("data-state");
+        // let sCode = getStateCode(reg);
+        console.log(sCode);
 
         //Build API Call URL
         let qURL = "https://opentable.herokuapp.com/api/restaurants?state=" + sCode;
@@ -666,68 +663,6 @@ jQuery(document).ready(function () {
 
 
     });
-
-    /*
-    =======================================================
-    Listener for Search Result Image is Clicked 
-    - List Details of Recipe 
-    =======================================================
-    */
-    // $(document).on("click", ".searchImg", function () {
-    //     addCard();
-
-    //     var dish = $(this).attr("data-dish");
-    //     var link = $(this).attr("data-url");
-
-    //     queryURL = "https://api.edamam.com/search?q=" + dish + "&app_id=c16ec41a&app_key=8a6a3fa7dcc42aa6406a3ea1f8367e34&from=0&to=1";
-
-    //     $.ajax({
-    //         url: queryURL,
-    //         method: "GET"
-    //     }).then(function (response) {
-    //         //console.log(response);
-    //         let recipe = response.hits[0].recipe;
-    //         label = recipe.label;
-    //         let categories = recipe.healthLabels;
-    //         let ingredients = recipe.ingredientLines;
-    //         let calories = recipe.calories;
-    //         let daily = recipe.totalDaily;
-    //         let nutrients = recipe.totalNutrients;
-
-
-
-    //         $("#recipeIns h3").text(label);
-    //         $("#recipeIns img").attr({
-    //             "alt": label,
-    //             "src": recipe.image
-    //         });
-    //         $("#servings").text(recipe.yield);
-
-    //         //Nutritional Value Information
-    //         $("#calories").text(parseInt(recipe.calories));
-    //         $("#fat").text(parseInt(daily.FAT.quantity));
-    //         $("#sodium").text(parseInt(daily.NA.quantity));
-    //         $("#sugar").text(parseInt(nutrients.SUGAR.quantity));
-    //         $("#protein").text(parseInt(nutrients.PROCNT.quantity));
-
-
-    //         for (var j = 0; j < ingredients.length; j++) {
-    //             let ing = $("<p>").text(ingredients[j]);
-
-    //             $("#recipeIngredients").append(ing);
-    //         }
-
-    //         if (categories.length > 0) {
-    //             $("#recipeCtg").show();
-    //             $("#categories").text(categories.join(", "));
-    //         } else {
-    //             $("#recipeCtg").hide();
-    //             $("#categories").text("");
-    //         }
-
-    //         $("#recipeIns a").attr("href", link);
-    //     });
-    // });
 
 
    // Adds a recipe to favorite recipes.
