@@ -191,6 +191,11 @@ jQuery(document).ready(function () {
         });
     }
 
+    // Checks if a recipe is already favorited.
+    // function recipeFaveCheck() {
+
+    // }
+
     // jQuery Vector Map
 
     var queryURL;
@@ -284,7 +289,7 @@ jQuery(document).ready(function () {
     - Brings up Card for Recipe Details to be Shown
     =======================================================
     */
-    $(document).on("click", ".recipeImg", function () {
+    $(document).on("click", ".recipeImg, .searchImg", function () {
         addCard();
 
         var dish = $(this).attr("data-dish");
@@ -668,61 +673,61 @@ jQuery(document).ready(function () {
     - List Details of Recipe 
     =======================================================
     */
-    $(document).on("click", ".searchImg", function () {
-        addCard();
+    // $(document).on("click", ".searchImg", function () {
+    //     addCard();
 
-        var dish = $(this).attr("data-dish");
-        var link = $(this).attr("data-url");
+    //     var dish = $(this).attr("data-dish");
+    //     var link = $(this).attr("data-url");
 
-        queryURL = "https://api.edamam.com/search?q=" + dish + "&app_id=c16ec41a&app_key=8a6a3fa7dcc42aa6406a3ea1f8367e34&from=0&to=1";
+    //     queryURL = "https://api.edamam.com/search?q=" + dish + "&app_id=c16ec41a&app_key=8a6a3fa7dcc42aa6406a3ea1f8367e34&from=0&to=1";
 
-        $.ajax({
-            url: queryURL,
-            method: "GET"
-        }).then(function (response) {
-            //console.log(response);
-            let recipe = response.hits[0].recipe;
-            label = recipe.label;
-            let categories = recipe.healthLabels;
-            let ingredients = recipe.ingredientLines;
-            let calories = recipe.calories;
-            let daily = recipe.totalDaily;
-            let nutrients = recipe.totalNutrients;
-
-
-
-            $("#recipeIns h3").text(label);
-            $("#recipeIns img").attr({
-                "alt": label,
-                "src": recipe.image
-            });
-            $("#servings").text(recipe.yield);
-
-            //Nutritional Value Information
-            $("#calories").text(parseInt(recipe.calories));
-            $("#fat").text(parseInt(daily.FAT.quantity));
-            $("#sodium").text(parseInt(daily.NA.quantity));
-            $("#sugar").text(parseInt(nutrients.SUGAR.quantity));
-            $("#protein").text(parseInt(nutrients.PROCNT.quantity));
+    //     $.ajax({
+    //         url: queryURL,
+    //         method: "GET"
+    //     }).then(function (response) {
+    //         //console.log(response);
+    //         let recipe = response.hits[0].recipe;
+    //         label = recipe.label;
+    //         let categories = recipe.healthLabels;
+    //         let ingredients = recipe.ingredientLines;
+    //         let calories = recipe.calories;
+    //         let daily = recipe.totalDaily;
+    //         let nutrients = recipe.totalNutrients;
 
 
-            for (var j = 0; j < ingredients.length; j++) {
-                let ing = $("<p>").text(ingredients[j]);
 
-                $("#recipeIngredients").append(ing);
-            }
+    //         $("#recipeIns h3").text(label);
+    //         $("#recipeIns img").attr({
+    //             "alt": label,
+    //             "src": recipe.image
+    //         });
+    //         $("#servings").text(recipe.yield);
 
-            if (categories.length > 0) {
-                $("#recipeCtg").show();
-                $("#categories").text(categories.join(", "));
-            } else {
-                $("#recipeCtg").hide();
-                $("#categories").text("");
-            }
+    //         //Nutritional Value Information
+    //         $("#calories").text(parseInt(recipe.calories));
+    //         $("#fat").text(parseInt(daily.FAT.quantity));
+    //         $("#sodium").text(parseInt(daily.NA.quantity));
+    //         $("#sugar").text(parseInt(nutrients.SUGAR.quantity));
+    //         $("#protein").text(parseInt(nutrients.PROCNT.quantity));
 
-            $("#recipeIns a").attr("href", link);
-        });
-    });
+
+    //         for (var j = 0; j < ingredients.length; j++) {
+    //             let ing = $("<p>").text(ingredients[j]);
+
+    //             $("#recipeIngredients").append(ing);
+    //         }
+
+    //         if (categories.length > 0) {
+    //             $("#recipeCtg").show();
+    //             $("#categories").text(categories.join(", "));
+    //         } else {
+    //             $("#recipeCtg").hide();
+    //             $("#categories").text("");
+    //         }
+
+    //         $("#recipeIns a").attr("href", link);
+    //     });
+    // });
 
 
    // Adds a recipe to favorite recipes.
@@ -746,6 +751,7 @@ jQuery(document).ready(function () {
             protein: $("#protein").text(),
             type: "recipe"
         }
+        console.log(uid);
 
         // Adds it to the Firebase favorites.
         database.ref("users/" + uid + "/favorites").child(recipeId).set(favRecipes[recipeId]);
