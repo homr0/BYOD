@@ -60,8 +60,12 @@ nav {
     top: calc(100vh - 6rem);
 }
 
+#favorite-places li:hover {
+    cursor: pointer;
+}
+
 .jumbotron {
-    background-color: rgb(255, 252 , 240, 1);
+    background-color: rgba(255, 252 , 240, 1);
     background-image: url('../images/basic-ingredients.jpg');
     background-repeat: no-repeat;
     background-attachment: fixed;
@@ -91,48 +95,29 @@ nav {
     max-width: calc(100% - 3rem);
 }
 
-.modal-dialog .recipeImg {
-    max-width: 20%;
-}
-
-.recipeImg img {
-    max-width: 100%;
-    cursor: pointer;
-}
-
-.modal-dialog .restImg {
+.modal-dialog .recipeImg, .modal-dialog .restImg, .modal-dialog .searchImg {
     max-width: 20%;
     cursor: pointer;
 }
 
-.searchImg img {
+.recipeImg img, .restImg img, .searchImg img {
     max-width: 100%;
 }
 
-.modal-dialog .searchImg {
-    max-width: 20%;
-    cursor: pointer;
-}
-
-.restImg img {
-    max-width: 100%;
-}
-
-#recipeSpace {
+#recipeSpace, #restSpace {
     display: none;
 }
 
-#recipeSpace #recipeAdd, #recipeSpace #recipeRemove {
+#recipeSpace #recipeAdd, #recipeSpace #recipeRemove, #restRemove {
     color: rgba(255, 255, 255, 1);
 }
 
-#recipeSpace #recipeAdd {
+#recipeSpace #recipeAdd, #restAdd {
     background-color: rgba(31, 31, 255, 0.9);
 }
 
-#recipeSpace #recipeRemove {
+#recipeSpace #recipeRemove, #restRemove {
     background-color: rgba(255, 31, 31, 0.9);
-    display: none;
 }
 
 #recipeSpace .card-header {

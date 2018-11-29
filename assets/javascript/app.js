@@ -174,8 +174,7 @@ jQuery(document).ready(function () {
                     // Adds place to favorites list.
                     favPlaces[key] = info;
 
-                    var place = $("<a>").text(info.name).attr("href", info.url);
-                    place = $("<li>").append(place);
+                    var place = $("<li>").text(info.name).attr("id", key);
                     $("#favorite-places").append(place);
                 }
             });
@@ -190,11 +189,6 @@ jQuery(document).ready(function () {
             }
         });
     }
-
-    // Checks if a recipe is already favorited.
-    // function recipeFaveCheck() {
-
-    // }
 
     // jQuery Vector Map
 
@@ -219,7 +213,7 @@ jQuery(document).ready(function () {
             $("#modalBody").empty();
 
             $("#modalBody").append('<button type="button" data-region="' + region + '" class="btn btn-outline-warning btn-lg center" id="cookBtn">Cook It</button>');
-            $("#modalBody").append('<button type="button" data-region="' + region + '" class="btn btn-outline-warning btn-lg center" id="restBtn">Restaurants</button>');
+            $("#modalBody").append('<button type="button" data-region="' + region + '" data-state="' + code.toUpperCase() + '" class="btn btn-outline-warning btn-lg center" id="restBtn">Restaurants</button>');
 
             $("#modalCenter").modal("show");
 
@@ -301,12 +295,10 @@ jQuery(document).ready(function () {
             url: queryURL,
             method: "GET"
         }).then(function (response) {
-            //console.log(response);
             let recipe = response.hits[0].recipe;
             label = recipe.label;
             let categories = recipe.healthLabels;
             let ingredients = recipe.ingredientLines;
-            let calories = recipe.calories;
             let daily = recipe.totalDaily;
             let nutrients = recipe.totalNutrients;
 
@@ -357,12 +349,9 @@ jQuery(document).ready(function () {
 
             let uri = recipe.uri;
             let recipeId = uri.substring(uri.indexOf("recipe_"));
+
             $("#recipeAdd, #recipeRemove").attr("data-id", recipeId);
-            $("#recipeAdd").attr({
-                "data-uri": uri,
-                "data-ingr": JSON.stringify(ingredients),
-                "data-ctg": JSON.stringify(categories)
-            });
+            $("#recipeAdd").attr("data-uri", uri);
         });
 
     });
@@ -374,7 +363,7 @@ jQuery(document).ready(function () {
     =======================================================
     */    
    $(document).on("click","#closeRecipe",function(){
-        $("#recipeAdd").removeAttr("data-uri data-ingr data-ctg");
+        $("#recipeAdd").removeAttr("data-uri");
         $("#recipeAdd, #recipeRemove").removeAttr("data-id");
         $("#recipeSpace").hide();
     });
@@ -433,7 +422,7 @@ jQuery(document).ready(function () {
     $(document).on("click", "#restBtn", function () {
         //Set Region From Button Attribute
         let reg = $(this).attr("data-region");
-        let sCode = getStateCode(reg);
+        let sCode = $(this).attr("data-state");
 
         //Build API Call URL
         let qURL = "https://opentable.herokuapp.com/api/restaurants?state=" + sCode;
@@ -454,7 +443,7 @@ jQuery(document).ready(function () {
                 let rID = response.restaurants[i].id;         //Restaurant ID From API
                 let city = response.restaurants[i].city;      //Restaurant's City
                 let state = response.restaurants[i].area;     //Restaurant's State
-                let address = response.restaurants[i].address + " " + city + ", " + state;    //Full Address
+                let address = response.restaurants[i].address + ", " + city + ", " + state;    //Full Address
                 let price = response.restaurants[i].price;
 
                 var restImg = $("<img>").attr({
@@ -480,76 +469,6 @@ jQuery(document).ready(function () {
     });
 
     /*
-     =======================================================
-     Function That Converts State to State Code
-     - Needed for Restaurant API
-     - Takes in Region/State
-     - Returns Equivalent State Code
-     =======================================================
-     */
-
-    function getStateCode(region) {
-        var states = [
-            ['Alabama', 'AL'],
-            ['Alaska', 'AK'],
-            ['Arizona', 'AZ'],
-            ['Arkansas', 'AR'],
-            ['California', 'CA'],
-            ['Colorado', 'CO'],
-            ['Connecticut', 'CT'],
-            ['Delaware', 'DE'],
-            ['Florida', 'FL'],
-            ['Georgia', 'GA'],
-            ['Hawaii', 'HI'],
-            ['Idaho', 'ID'],
-            ['Illinois', 'IL'],
-            ['Indiana', 'IN'],
-            ['Iowa', 'IA'],
-            ['Kansas', 'KS'],
-            ['Kentucky', 'KY'],
-            ['Louisiana', 'LA'],
-            ['Maine', 'ME'],
-            ['Maryland', 'MD'],
-            ['Massachusetts', 'MA'],
-            ['Michigan', 'MI'],
-            ['Minnesota', 'MN'],
-            ['Mississippi', 'MS'],
-            ['Missouri', 'MO'],
-            ['Montana', 'MT'],
-            ['Nebraska', 'NE'],
-            ['Nevada', 'NV'],
-            ['New Hampshire', 'NH'],
-            ['New Jersey', 'NJ'],
-            ['New Mexico', 'NM'],
-            ['New York', 'NY'],
-            ['North Carolina', 'NC'],
-            ['North Dakota', 'ND'],
-            ['Ohio', 'OH'],
-            ['Oklahoma', 'OK'],
-            ['Oregon', 'OR'],
-            ['Pennsylvania', 'PA'],
-            ['Rhode Island', 'RI'],
-            ['South Carolina', 'SC'],
-            ['South Dakota', 'SD'],
-            ['Tennessee', 'TN'],
-            ['Texas', 'TX'],
-            ['Utah', 'UT'],
-            ['Vermont', 'VT'],
-            ['Virginia', 'VA'],
-            ['Washington', 'WA'],
-            ['West Virginia', 'WV'],
-            ['Wisconsin', 'WI'],
-            ['Wyoming', 'WY'],
-        ];
-
-        for (i = 0; i < states.length; i++) {
-            if (states[i][0] === region) {
-                return (states[i][1]);
-            }
-        }
-    }
-
-    /*
     =======================================================
     Listener for Image of Restaurant Clicked
     - Brings up Card for Recipe Details to be Shown
@@ -557,6 +476,7 @@ jQuery(document).ready(function () {
     */
     $(document).on("click", ".restImg", function () {
         //Extract Restaurant Details Back
+        let id = $(this).attr("data-id");
         let n = $(this).attr("data-name");
         let i = $(this).attr("data-img");
         let num = $(this).attr("data-number");
@@ -578,6 +498,38 @@ jQuery(document).ready(function () {
         $("#modalBody").append("<p><strong>Price Range: </strong> " + range + "</p>");
 
         $("#modalBody").append("<p>*Price Range is 1-4, 1 being lowest and 4 being the highest</p>");
+
+        var restAdd = $("<button>").addClass("btn").attr({
+            "id": "restAdd",
+            "data-id": id,
+            "data-name": n,
+            "data-image": i,
+            "data-address": add,
+            "data-phone": num,
+            "data-range": range
+        }).text(" Add to Favorite Restaurants");
+
+        $(restAdd).prepend($("<i>").addClass("far fa-star"));
+
+        var restRemove = $("<button>").addClass("btn").attr({
+            "id": "restRemove",
+            "data-id": id
+        }).text(" Remove from Favorite Restaurants");
+
+        $(restRemove).prepend($("<i>").addClass("fas fa-star"));
+
+        $("#modalBody").append(restAdd, restRemove);
+
+        $("#restRemove").hide();
+
+        // Checks if the restaurant is already in the favorites.
+        $.each(favPlaces, function(name, info) {
+            if(id == name) {
+                $("#restAdd").hide();
+                $("#restRemove").show();        
+                return false;
+            }
+        });
     });
 
     /*
@@ -593,39 +545,36 @@ jQuery(document).ready(function () {
         var ing = $("#searchIng").val().trim();
         var sNum = $("#recQ").val();
         var hRest = $("#healthRest").val();
-        var searchURL;
+        
+        var searchURL = "https://api.edamam.com/search?q=" + ing + "&app_id=c16ec41a&app_key=8a6a3fa7dcc42aa6406a3ea1f8367e34&from=0&to=" + sNum;
 
         switch (hRest) {
-            case "Choose": {
-                searchURL = "https://api.edamam.com/search?q=" + ing + "&app_id=c16ec41a&app_key=8a6a3fa7dcc42aa6406a3ea1f8367e34&from=0&to=" + sNum;
-                break;
-            }
             case "Vegan": {
-                searchURL = "https://api.edamam.com/search?q=" + ing + "&app_id=c16ec41a&app_key=8a6a3fa7dcc42aa6406a3ea1f8367e34&from=0&to=" + sNum + "&health=vegan";
+                searchURL += "&health=vegan";
                 break;
             }
             case "Vegetarian": {
-                searchURL = "https://api.edamam.com/search?q=" + ing + "&app_id=c16ec41a&app_key=8a6a3fa7dcc42aa6406a3ea1f8367e34&from=0&to=" + sNum + "&health=vegetarian";
+                searchURL += "&health=vegetarian";
                 break;
             }
             case "Gluten Free": {
-                searchURL = "https://api.edamam.com/search?q=" + ing + "&app_id=c16ec41a&app_key=8a6a3fa7dcc42aa6406a3ea1f8367e34&from=0&to=" + sNum + "&health=gluten-free";
+                searchURL += "&health=gluten-free";
                 break;
             }
             case "Dairy Free": {
-                searchURL = "https://api.edamam.com/search?q=" + ing + "&app_id=c16ec41a&app_key=8a6a3fa7dcc42aa6406a3ea1f8367e34&from=0&to=" + sNum + "&health=dairy-free"
+                searchURL +="&health=dairy-free"
                 break;
             }
             case "Peanut Free": {
-                searchURL = "https://api.edamam.com/search?q=" + ing + "&app_id=c16ec41a&app_key=8a6a3fa7dcc42aa6406a3ea1f8367e34&from=0&to=" + sNum + "&health=peanut-free";
+                searchURL +="&health=peanut-free";
                 break;
             }
             case "Sugar Free": {
-                searchURL = "https://api.edamam.com/search?q=" + ing + "&app_id=c16ec41a&app_key=8a6a3fa7dcc42aa6406a3ea1f8367e34&from=0&to=" + sNum + "&health=low-sugar";
+                searchURL +="&health=low-sugar";
                 break;
             }
             case "Red Meat-Free": {
-                searchURL = "https://api.edamam.com/search?q=" + ing + "&app_id=c16ec41a&app_key=8a6a3fa7dcc42aa6406a3ea1f8367e34&from=0&to=" + sNum + "&health=red-meat-free";
+                searchURL += "&health=red-meat-free";
                 break;
             }
         }
@@ -667,68 +616,6 @@ jQuery(document).ready(function () {
 
     });
 
-    /*
-    =======================================================
-    Listener for Search Result Image is Clicked 
-    - List Details of Recipe 
-    =======================================================
-    */
-    // $(document).on("click", ".searchImg", function () {
-    //     addCard();
-
-    //     var dish = $(this).attr("data-dish");
-    //     var link = $(this).attr("data-url");
-
-    //     queryURL = "https://api.edamam.com/search?q=" + dish + "&app_id=c16ec41a&app_key=8a6a3fa7dcc42aa6406a3ea1f8367e34&from=0&to=1";
-
-    //     $.ajax({
-    //         url: queryURL,
-    //         method: "GET"
-    //     }).then(function (response) {
-    //         //console.log(response);
-    //         let recipe = response.hits[0].recipe;
-    //         label = recipe.label;
-    //         let categories = recipe.healthLabels;
-    //         let ingredients = recipe.ingredientLines;
-    //         let calories = recipe.calories;
-    //         let daily = recipe.totalDaily;
-    //         let nutrients = recipe.totalNutrients;
-
-
-
-    //         $("#recipeIns h3").text(label);
-    //         $("#recipeIns img").attr({
-    //             "alt": label,
-    //             "src": recipe.image
-    //         });
-    //         $("#servings").text(recipe.yield);
-
-    //         //Nutritional Value Information
-    //         $("#calories").text(parseInt(recipe.calories));
-    //         $("#fat").text(parseInt(daily.FAT.quantity));
-    //         $("#sodium").text(parseInt(daily.NA.quantity));
-    //         $("#sugar").text(parseInt(nutrients.SUGAR.quantity));
-    //         $("#protein").text(parseInt(nutrients.PROCNT.quantity));
-
-
-    //         for (var j = 0; j < ingredients.length; j++) {
-    //             let ing = $("<p>").text(ingredients[j]);
-
-    //             $("#recipeIngredients").append(ing);
-    //         }
-
-    //         if (categories.length > 0) {
-    //             $("#recipeCtg").show();
-    //             $("#categories").text(categories.join(", "));
-    //         } else {
-    //             $("#recipeCtg").hide();
-    //             $("#categories").text("");
-    //         }
-
-    //         $("#recipeIns a").attr("href", link);
-    //     });
-    // });
-
 
    // Adds a recipe to favorite recipes.
    $("#recipeAdd").on("click", function() {
@@ -736,22 +623,14 @@ jQuery(document).ready(function () {
         $("#recipeRemove").show();
         let recipeId = $(this).attr("data-id");
 
-        // Adds it to the local array
-        favRecipes[$(this).attr("data-id")] = {
+        // Adds it to the favorite recipes object.
+        favRecipes[recipeId] = {
             uri: $(this).attr("data-uri"),
             name: $("#recipeIns h3").text(),
             url: $("#recipeIns a").attr("href"),
             image: $("#recipeIns img").attr("src"),
-            ingredients: $(this).attr("data-ingr"),
-            servings: $("#servings").text(),
-            calories: $("#calories").text(),
-            fat: $("#fat").text(),
-            sodium: $("#sodium").text(),
-            sugar: $("#sugar").text(),
-            protein: $("#protein").text(),
             type: "recipe"
         }
-        console.log(uid);
 
         // Adds it to the Firebase favorites.
         database.ref("users/" + uid + "/favorites").child(recipeId).set(favRecipes[recipeId]);
@@ -774,5 +653,67 @@ jQuery(document).ready(function () {
             $("#closeRecipe").trigger("click");
             renderFavorites();
         }
+   });
+
+   // When a restaurant item is picked, then the info is displayed.
+   $("#favorite-places").on("click", "li", function() {
+        $("#restSpace").show();
+        
+        var info = favPlaces[$(this).attr("id")];
+        console.log(info);
+
+        $("#placeInfo h3").text(info.name);
+        $("#placeInfo img").attr({
+            "alt": info.name,
+            "src": info.image
+        });
+
+        $("#address").text(info.address);
+        $("#phone").text(info.phone);
+        $("#range").text(info.range);
+   });
+
+   // Adds a restaurant to the favorite restaurant list.
+   $(document).on("click", "#restAdd", function() {
+        $("#restAdd").hide();
+        $("#restRemove").show();
+        let placeId = $(this).attr("data-id");
+
+        // Adds it to favorite places object.
+        favPlaces[placeId] = {
+            name: $(this).attr("data-name"),
+            image: $(this).attr("data-image"),
+            address: $(this).attr("data-address"),
+            phone: $(this).attr("data-phone"),
+            range: $(this).attr("data-range"),
+            type: "restaurant"
+        }
+
+        // Adds it to the Firebase favorites.
+        database.ref("users/" + uid + "/favorites").child(placeId).set(favPlaces[placeId]);
+   });
+
+   // Removes the restaurant from the favorite restaurant list.
+   $(document).on("click", "#restRemove", function() {
+        $("#restAdd").show();
+        $("#restRemove").hide();
+
+        let placeId = $(this).attr("data-id");
+
+        // Removes the restaurant from the favorite places object.
+        delete favPlaces[placeId];
+
+        // Removes the restaurant from the Firebase favorites.
+        database.ref("users/" + uid + "/favorites/" + placeId).remove();
+
+        if($("#favorite-page").length) {
+            $("#closeRest").trigger("click");
+            renderFavorites();
+        }
+   });
+
+   // Closes the restaurant card.
+   $("#restClose").on("click", function() {
+        $("#restSpace").hide();
    });
 });

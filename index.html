@@ -86,7 +86,7 @@
                                 </div>
                             </div>
             
-                            <div class="ingredients">
+                            <div id="ingredients">
                                 <div class="card">
                                     <div class="card-header" id="ingredientsHeading">                           
                                         <p>Ingredients:</p>
@@ -113,15 +113,48 @@
             </div>
 
             <div class="col-12 col-md-3">
-                <h2 class="text-center">Favorite Places</h2>
+                <h2 class="text-center">Favorite Restaurants</h2>
 
-                <p id="places-none">No favorite places yet.</p>
+                <p id="places-none">No favorite restaurants yet.</p>
+                
                 <ul id="favorite-places"></ul>
-                <!-- <div class="accordion" id="favorite-places">
-                    <div class="card">
-                        <div class="card-header" id="region-none">No favorite places yet</div>
+
+                <div class="card w-100" id="restSpace">
+                    <div class="card-header">
+                        <i class="fas fa-info-circle"></i> Restaurant Details
                     </div>
-                </div> -->
+
+                    <div class="card-body" id="placeInfo">
+                        <h3>Restaurant</h3>
+
+                        <hr class="my-4">
+
+                        <img alt="Restaurant pic" src="#">
+
+                        <p>
+                            <strong>Address:</strong>
+                            <span id="address"></span>
+                        </p>
+
+                        <p>
+                            <strong>Phone:</strong>
+                            <span id="phone"></span>
+                        </p>
+
+                        <p>
+                            <strong>Price Range:</strong>
+                            <span id="range"></span>
+                        </p>
+
+                        <p>*Price Range is 1-4, 1 being lowest and 4 being the highest</p>
+
+                        <button class="btn" id="restRemove">
+                            <i class="fas fa-star"></i> Remove from Favorite Restaurants
+                        </button>
+            
+                        <button type="button" class="btn btn-outline-dark" id="restClose">Close</button>
+                    </div>
+                </div>
             </div>
         </div>
 
