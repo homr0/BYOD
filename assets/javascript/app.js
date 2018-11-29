@@ -477,76 +477,6 @@ jQuery(document).ready(function () {
     });
 
     /*
-     =======================================================
-     Function That Converts State to State Code
-     - Needed for Restaurant API
-     - Takes in Region/State
-     - Returns Equivalent State Code
-     =======================================================
-     */
-
-    function getStateCode(region) {
-        var states = [
-            ['Alabama', 'AL'],
-            ['Alaska', 'AK'],
-            ['Arizona', 'AZ'],
-            ['Arkansas', 'AR'],
-            ['California', 'CA'],
-            ['Colorado', 'CO'],
-            ['Connecticut', 'CT'],
-            ['Delaware', 'DE'],
-            ['Florida', 'FL'],
-            ['Georgia', 'GA'],
-            ['Hawaii', 'HI'],
-            ['Idaho', 'ID'],
-            ['Illinois', 'IL'],
-            ['Indiana', 'IN'],
-            ['Iowa', 'IA'],
-            ['Kansas', 'KS'],
-            ['Kentucky', 'KY'],
-            ['Louisiana', 'LA'],
-            ['Maine', 'ME'],
-            ['Maryland', 'MD'],
-            ['Massachusetts', 'MA'],
-            ['Michigan', 'MI'],
-            ['Minnesota', 'MN'],
-            ['Mississippi', 'MS'],
-            ['Missouri', 'MO'],
-            ['Montana', 'MT'],
-            ['Nebraska', 'NE'],
-            ['Nevada', 'NV'],
-            ['New Hampshire', 'NH'],
-            ['New Jersey', 'NJ'],
-            ['New Mexico', 'NM'],
-            ['New York', 'NY'],
-            ['North Carolina', 'NC'],
-            ['North Dakota', 'ND'],
-            ['Ohio', 'OH'],
-            ['Oklahoma', 'OK'],
-            ['Oregon', 'OR'],
-            ['Pennsylvania', 'PA'],
-            ['Rhode Island', 'RI'],
-            ['South Carolina', 'SC'],
-            ['South Dakota', 'SD'],
-            ['Tennessee', 'TN'],
-            ['Texas', 'TX'],
-            ['Utah', 'UT'],
-            ['Vermont', 'VT'],
-            ['Virginia', 'VA'],
-            ['Washington', 'WA'],
-            ['West Virginia', 'WV'],
-            ['Wisconsin', 'WI'],
-            ['Wyoming', 'WY'],
-        ];
-
-        for (i = 0; i < states.length; i++) {
-            if (states[i][0] === region) {
-                return (states[i][1]);
-            }
-        }
-    }
-
-    /*
     =======================================================
     Listener for Image of Restaurant Clicked
     - Brings up Card for Recipe Details to be Shown
@@ -590,39 +520,36 @@ jQuery(document).ready(function () {
         var ing = $("#searchIng").val().trim();
         var sNum = $("#recQ").val();
         var hRest = $("#healthRest").val();
-        var searchURL;
+        
+        var searchURL = "https://api.edamam.com/search?q=" + ing + "&app_id=c16ec41a&app_key=8a6a3fa7dcc42aa6406a3ea1f8367e34&from=0&to=" + sNum;
 
         switch (hRest) {
-            case "Choose": {
-                searchURL = "https://api.edamam.com/search?q=" + ing + "&app_id=c16ec41a&app_key=8a6a3fa7dcc42aa6406a3ea1f8367e34&from=0&to=" + sNum;
-                break;
-            }
             case "Vegan": {
-                searchURL = "https://api.edamam.com/search?q=" + ing + "&app_id=c16ec41a&app_key=8a6a3fa7dcc42aa6406a3ea1f8367e34&from=0&to=" + sNum + "&health=vegan";
+                searchURL += "&health=vegan";
                 break;
             }
             case "Vegetarian": {
-                searchURL = "https://api.edamam.com/search?q=" + ing + "&app_id=c16ec41a&app_key=8a6a3fa7dcc42aa6406a3ea1f8367e34&from=0&to=" + sNum + "&health=vegetarian";
+                searchURL += "&health=vegetarian";
                 break;
             }
             case "Gluten Free": {
-                searchURL = "https://api.edamam.com/search?q=" + ing + "&app_id=c16ec41a&app_key=8a6a3fa7dcc42aa6406a3ea1f8367e34&from=0&to=" + sNum + "&health=gluten-free";
+                searchURL += "&health=gluten-free";
                 break;
             }
             case "Dairy Free": {
-                searchURL = "https://api.edamam.com/search?q=" + ing + "&app_id=c16ec41a&app_key=8a6a3fa7dcc42aa6406a3ea1f8367e34&from=0&to=" + sNum + "&health=dairy-free"
+                searchURL +="&health=dairy-free"
                 break;
             }
             case "Peanut Free": {
-                searchURL = "https://api.edamam.com/search?q=" + ing + "&app_id=c16ec41a&app_key=8a6a3fa7dcc42aa6406a3ea1f8367e34&from=0&to=" + sNum + "&health=peanut-free";
+                searchURL +="&health=peanut-free";
                 break;
             }
             case "Sugar Free": {
-                searchURL = "https://api.edamam.com/search?q=" + ing + "&app_id=c16ec41a&app_key=8a6a3fa7dcc42aa6406a3ea1f8367e34&from=0&to=" + sNum + "&health=low-sugar";
+                searchURL +="&health=low-sugar";
                 break;
             }
             case "Red Meat-Free": {
-                searchURL = "https://api.edamam.com/search?q=" + ing + "&app_id=c16ec41a&app_key=8a6a3fa7dcc42aa6406a3ea1f8367e34&from=0&to=" + sNum + "&health=red-meat-free";
+                searchURL += "&health=red-meat-free";
                 break;
             }
         }
