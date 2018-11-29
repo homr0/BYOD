@@ -174,8 +174,7 @@ jQuery(document).ready(function () {
                     // Adds place to favorites list.
                     favPlaces[key] = info;
 
-                    var place = $("<a>").text(info.name).attr("href", info.url);
-                    place = $("<li>").append(place);
+                    var place = $("<li>").text(info.name).attr("id", key);
                     $("#favorite-places").append(place);
                 }
             });
@@ -364,7 +363,7 @@ jQuery(document).ready(function () {
     =======================================================
     */    
    $(document).on("click","#closeRecipe",function(){
-        $("#recipeAdd").removeAttr("data-uri data-ingr data-ctg");
+        $("#recipeAdd").removeAttr("data-uri");
         $("#recipeAdd, #recipeRemove").removeAttr("data-id");
         $("#recipeSpace").hide();
     });
@@ -444,7 +443,7 @@ jQuery(document).ready(function () {
                 let rID = response.restaurants[i].id;         //Restaurant ID From API
                 let city = response.restaurants[i].city;      //Restaurant's City
                 let state = response.restaurants[i].area;     //Restaurant's State
-                let address = response.restaurants[i].address + " " + city + ", " + state;    //Full Address
+                let address = response.restaurants[i].address + ", " + city + ", " + state;    //Full Address
                 let price = response.restaurants[i].price;
 
                 var restImg = $("<img>").attr({
@@ -477,6 +476,7 @@ jQuery(document).ready(function () {
     */
     $(document).on("click", ".restImg", function () {
         //Extract Restaurant Details Back
+        let id = $(this).attr("data-id");
         let n = $(this).attr("data-name");
         let i = $(this).attr("data-img");
         let num = $(this).attr("data-number");
@@ -498,6 +498,38 @@ jQuery(document).ready(function () {
         $("#modalBody").append("<p><strong>Price Range: </strong> " + range + "</p>");
 
         $("#modalBody").append("<p>*Price Range is 1-4, 1 being lowest and 4 being the highest</p>");
+
+        var restAdd = $("<button>").addClass("btn").attr({
+            "id": "restAdd",
+            "data-id": id,
+            "data-name": n,
+            "data-image": i,
+            "data-address": add,
+            "data-phone": num,
+            "data-range": range
+        }).text(" Add to Favorite Restaurants");
+
+        $(restAdd).prepend($("<i>").addClass("far fa-star"));
+
+        var restRemove = $("<button>").addClass("btn").attr({
+            "id": "restRemove",
+            "data-id": id
+        }).text(" Remove from Favorite Restaurants");
+
+        $(restRemove).prepend($("<i>").addClass("fas fa-star"));
+
+        $("#modalBody").append(restAdd, restRemove);
+
+        $("#restRemove").hide();
+
+        // Checks if the restaurant is already in the favorites.
+        $.each(favPlaces, function(name, info) {
+            if(id == name) {
+                $("#restAdd").hide();
+                $("#restRemove").show();        
+                return false;
+            }
+        });
     });
 
     /*
@@ -591,8 +623,8 @@ jQuery(document).ready(function () {
         $("#recipeRemove").show();
         let recipeId = $(this).attr("data-id");
 
-        // Adds it to the local array
-        favRecipes[$(this).attr("data-id")] = {
+        // Adds it to the favorite recipes object.
+        favRecipes[recipeId] = {
             uri: $(this).attr("data-uri"),
             name: $("#recipeIns h3").text(),
             url: $("#recipeIns a").attr("href"),
@@ -621,5 +653,67 @@ jQuery(document).ready(function () {
             $("#closeRecipe").trigger("click");
             renderFavorites();
         }
+   });
+
+   // When a restaurant item is picked, then the info is displayed.
+   $("#favorite-places").on("click", "li", function() {
+        $("#restSpace").show();
+        
+        var info = favPlaces[$(this).attr("id")];
+        console.log(info);
+
+        $("#placeInfo h3").text(info.name);
+        $("#placeInfo img").attr({
+            "alt": info.name,
+            "src": info.image
+        });
+
+        $("#address").text(info.address);
+        $("#phone").text(info.phone);
+        $("#range").text(info.range);
+   });
+
+   // Adds a restaurant to the favorite restaurant list.
+   $(document).on("click", "#restAdd", function() {
+        $("#restAdd").hide();
+        $("#restRemove").show();
+        let placeId = $(this).attr("data-id");
+
+        // Adds it to favorite places object.
+        favPlaces[placeId] = {
+            name: $(this).attr("data-name"),
+            image: $(this).attr("data-image"),
+            address: $(this).attr("data-address"),
+            phone: $(this).attr("data-phone"),
+            range: $(this).attr("data-range"),
+            type: "restaurant"
+        }
+
+        // Adds it to the Firebase favorites.
+        database.ref("users/" + uid + "/favorites").child(placeId).set(favPlaces[placeId]);
+   });
+
+   // Removes the restaurant from the favorite restaurant list.
+   $(document).on("click", "#restRemove", function() {
+        $("#restAdd").show();
+        $("#restRemove").hide();
+
+        let placeId = $(this).attr("data-id");
+
+        // Removes the restaurant from the favorite places object.
+        delete favPlaces[placeId];
+
+        // Removes the restaurant from the Firebase favorites.
+        database.ref("users/" + uid + "/favorites/" + placeId).remove();
+
+        if($("#favorite-page").length) {
+            $("#closeRest").trigger("click");
+            renderFavorites();
+        }
+   });
+
+   // Closes the restaurant card.
+   $("#restClose").on("click", function() {
+        $("#restSpace").hide();
    });
 });
