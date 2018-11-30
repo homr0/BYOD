@@ -108,7 +108,7 @@ nav {
     display: none;
 }
 
-#recipeSpace #recipeAdd, #recipeSpace #recipeRemove, #restRemove {
+#recipeSpace #recipeAdd, #recipeSpace #recipeRemove, #restAdd, #restRemove {
     color: rgba(255, 255, 255, 1);
 }
 
@@ -116,8 +116,16 @@ nav {
     background-color: rgba(31, 31, 255, 0.9);
 }
 
+#recipeSpace #recipeAdd:hover, #restAdd:hover {
+    background-color: rgba(0, 0, 255, 0.9);
+}
+
 #recipeSpace #recipeRemove, #restRemove {
     background-color: rgba(255, 31, 31, 0.9);
+}
+
+#recipeSpace #recipeRemove:hover, #restRemove:hover {
+    background-color: rgba(255, 0, 0, 0.9);
 }
 
 #recipeSpace .card-header {
