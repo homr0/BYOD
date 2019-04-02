@@ -3,10 +3,14 @@
 ## Instructions
 
 1. Sign in to [BYOD](https://homr0.github.io/BYOD/) with your email and password.
+![BYOD sign in](/assets/images/byod-login.PNG)
 2. On the *[Map](https://homr0.github.io/BYOD/map.html)* page, you can pick a state to look at recipes by region as well as find restaurants.
+![BYOD map](/assets/images/byod-map.PNG)
 3. On the *[Search](https://homr0.github.io/BYOD/search.html)* page, you can look for a recipe by ingredient as well as filter out recipes by dietary restrictions.
+![BYOD search](/assets/images/byod-search.PNG)
 4. Any recipe or restaurant can be bookmarked as a favorite recipe or restaurant.
 5. Bookmarked recipes and restaurants can be accessed on the *[home page](https://homr0.github.io/BYOD/)*.
+![BYOD favorites](/assets/images/byod-home.PNG)
 
 ## Technical Specifications
 
